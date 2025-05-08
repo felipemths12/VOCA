@@ -10,19 +10,20 @@ public class FormacaoAcademica {
     private String areaAtuacao; //atributo para armazenar area de atuação do candidato
     private LocalDate dataInicio; //atributo para armazenar a data de inicio do curso
     private LocalDate dataConclusao; //atributo para armazenar a data de conclusão do curso
-    private SituacaoCurso situacaoCurso; //atributo utilizando Enum para o atributo receber valores fixos pré-determinados
+    private SituacaoCurso situacaoCurso;//atributo utilizando Enum para o atributo receber valores fixos pré-determinados
+    private String situacaoCursoStr; //String para armazenar a situação e ser convertida para o Enum
 
     public FormacaoAcademica () {
     }
 
     public FormacaoAcademica (String curso, String instituicao, String areaAtuacao,
-                              String dataInicio, String dataConclusao, SituacaoCurso situacaoCurso) {
+                              String dataInicio, String dataConclusao, String situacaoCursoStr) {
         setCurso(curso);
         setInstituicao(instituicao);
         setAreaAtuacao(areaAtuacao);
         setDataInicio(dataInicio);
         setDataConclusao(dataConclusao);
-        setSituacaoCurso(situacaoCurso);
+        setSituacaoCurso(situacaoCursoStr);
     }
     //enumeração de valores fixos (constantes) para a situação do curso utilizando a classe Enum
     public enum SituacaoCurso {
@@ -53,7 +54,7 @@ public class FormacaoAcademica {
         }
     }
 
-    /*setter da data de inicio do curso que utiliza um formatador para especificar o formato e converte a String em um
+    /*setter da data de início do curso que utiliza um formatador para especificar o formato e converte a String em um
     atributo do tipo LocalDate seguindo o padrão mm/aaaa*/
     public void setDataInicio (String dataInicio) {
         DateTimeFormatter formatador = DateTimeFormatter.ofPattern("MM/yyyy");
