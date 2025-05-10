@@ -78,6 +78,8 @@ public class FormacaoAcademica {
         }
     }
 
+    /*setter da situação do curso. recebe uma string, deixa-a em letras maiúsculas e converte para o tipo Enum e atribui
+    ao atributo Enum situacaoCurso*/
     public void setSituacaoCurso(String situacaoCurso) {
         try {
             this.situacaoCurso = SituacaoCurso.valueOf(situacaoCurso.toUpperCase());
