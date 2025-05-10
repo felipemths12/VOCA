@@ -1,9 +1,8 @@
 package br.com.voca.modelos;
 
-import java.time.DateTimeException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
+import java.time.LocalDate; //biblioteca utilizada para representar datas
+import java.time.format.DateTimeFormatter; //biblioteca para formatar e analisar datas
+import java.time.format.DateTimeParseException; //classe para tratar erros de conversão
 
 public class Candidato {
     private String nome; //atributo para armazenar o nome
@@ -16,6 +15,7 @@ public class Candidato {
     public Candidato() {
     }
 
+    //construtor completo para instanciar um objeto do tipo Candidato
     public Candidato (String nome, String dataNascimento, String email,
                       String telefone, String nacionalidade) {
         setNome(nome);

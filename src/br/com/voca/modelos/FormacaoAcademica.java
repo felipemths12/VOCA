@@ -1,8 +1,8 @@
 package br.com.voca.modelos;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
+import java.time.LocalDate; //biblioteca utilizada para representar datas
+import java.time.format.DateTimeFormatter; //biblioteca para formatar e analisar datas
+import java.time.format.DateTimeParseException; //classe para tratar erros de conversão
 
 public class FormacaoAcademica {
     private String curso; //atributo para armazenar o nome do curso
@@ -13,9 +13,11 @@ public class FormacaoAcademica {
     private SituacaoCurso situacaoCurso;//atributo utilizando Enum para o atributo receber valores fixos pré-determinados
     private String situacaoCursoStr; //String para armazenar a situação e ser convertida para o Enum
 
+    //construtor vazio para o JavaFX
     public FormacaoAcademica () {
     }
 
+    //construtor completo para instanciar um objeto do tipo FormacaoAcademica
     public FormacaoAcademica (String curso, String instituicao, String areaAtuacao,
                               String dataInicio, String dataConclusao, String situacaoCursoStr) {
         setCurso(curso);
