@@ -5,6 +5,16 @@ public class Habilidades {
     private Nivel nivel; //atributo utilizando Enum para o atributo receber valores fixos pré-determinados
     private String nivelStr; //String para armazenar a situação e ser convertida para o Enum
 
+    //construtor vazio para o JavaFX
+    public Habilidades () {
+    }
+
+    //construtor completo para instanciar objetos do tipo Idioma
+    public Habilidades (String habilidade, String nivelStr) {
+        setHabilidade(habilidade);
+        setNivel(nivelStr);
+    }
+
     //enumeração de valores fixos (constantes) para a situação do curso utilizando a classe Enum
     public enum Nivel {
         BASICO,
