@@ -3,7 +3,7 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 .idea/
-src/br/com/voca/testes/
+src/br/com/VOCA/testes/
 
 ### Eclipse ###
 .apt_generated
