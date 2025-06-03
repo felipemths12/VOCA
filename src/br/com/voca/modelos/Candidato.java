@@ -67,4 +67,28 @@ public class Candidato {
             this.nacionalidade = nacionalidade;
         }
     }
+
+    //Adição de Get (apenas para testes)
+    public String getNome() {
+        return nome;
+    }
+
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public String getNacionalidade() {
+        return nacionalidade;
+    }
+
+    public void setId(int id) {
+    }
 }
