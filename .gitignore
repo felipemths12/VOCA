@@ -4,6 +4,7 @@ out/
 !**/src/test/**/out/
 .idea/
 src/br/com/VOCA/testes/
+*.iml
 
 ### Eclipse ###
 .apt_generated
