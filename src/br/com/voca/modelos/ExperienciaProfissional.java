@@ -79,4 +79,24 @@ public class ExperienciaProfissional {
             palavras.add(palavraChave);
         }
     }
+
+    public String getNomeEmpresa() {
+        return nomeEmpresa;
+    }
+
+    public String getCargoOcupado() {
+        return cargoOcupado;
+    }
+
+    public LocalDate getInicio() {
+        return inicio;
+    }
+
+    public LocalDate getFim() {
+        return fim;
+    }
+
+    public List<String> getPalavras() {
+        return palavras;
+    }
 }

@@ -67,4 +67,24 @@ public class Candidato {
             this.nacionalidade = nacionalidade;
         }
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public String getNacionalidade() {
+        return nacionalidade;
+    }
 }

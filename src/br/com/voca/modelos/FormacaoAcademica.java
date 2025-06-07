@@ -87,4 +87,28 @@ public class FormacaoAcademica {
             //implementar o tratamento da exceção baseado no front-end
         }
     }
+
+    public String getCurso() {
+        return curso;
+    }
+
+    public String getInstituicao() {
+        return instituicao;
+    }
+
+    public String getAreaAtuacao() {
+        return areaAtuacao;
+    }
+
+    public LocalDate getDataInicio() {
+        return dataInicio;
+    }
+
+    public LocalDate getDataConclusao() {
+        return dataConclusao;
+    }
+
+    public SituacaoCurso getSituacaoCurso() {
+        return situacaoCurso;
+    }
 }

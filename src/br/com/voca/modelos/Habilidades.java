@@ -38,4 +38,12 @@ public class Habilidades {
             //implementar tratamento de exceção no front-end
         }
     }
+
+    public String getHabilidade() {
+        return habilidade;
+    }
+
+    public Nivel getNivel() {
+        return nivel;
+    }
 }

@@ -38,4 +38,12 @@ public class Idioma {
             //implementar o tratamento no front-end
         }
     }
+
+    public String getIdioma() {
+        return idioma;
+    }
+
+    public Nivel getNivel() {
+        return nivel;
+    }
 }
