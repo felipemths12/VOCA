@@ -80,6 +80,8 @@ public class ExperienciaProfissional {
         }
     }
 
+    //getters para retornar os atributos da classe
+
     public String getNomeEmpresa() {
         return nomeEmpresa;
     }

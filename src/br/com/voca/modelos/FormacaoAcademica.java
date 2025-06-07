@@ -88,6 +88,9 @@ public class FormacaoAcademica {
         }
     }
 
+
+    //getters para retornar os atributos da classe
+
     public String getCurso() {
         return curso;
     }

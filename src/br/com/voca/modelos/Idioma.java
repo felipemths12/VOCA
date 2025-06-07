@@ -39,6 +39,8 @@ public class Idioma {
         }
     }
 
+    //getters para retornar os atributos da classe
+
     public String getIdioma() {
         return idioma;
     }

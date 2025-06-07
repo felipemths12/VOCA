@@ -68,6 +68,8 @@ public class Candidato {
         }
     }
 
+    //getters para retornar os atributos da classe
+
     public String getNome() {
         return nome;
     }
