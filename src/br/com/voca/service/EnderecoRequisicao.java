@@ -1,4 +1,4 @@
-package br.com.voca.modelos;
+package br.com.voca.service;
 
 //classes utilizadas para utilizar a API ViaCEP
 import java.io.IOException;
@@ -6,6 +6,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+
+import br.com.voca.modelos.Endereco;
 import com.google.gson.Gson;
 
 public class EnderecoRequisicao {
