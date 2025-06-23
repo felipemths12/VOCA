@@ -1,15 +1,24 @@
 package br.com.voca.modelos;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate; //biblioteca utilizada para representar datas
 import java.time.format.DateTimeFormatter; //biblioteca para formatar e analisar datas
 import java.time.format.DateTimeParseException; //classe para tratar erros de conversão
 
+@Entity
 public class Candidato {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String nome; //atributo para armazenar o nome
     private LocalDate dataNascimento; //atributo para armazenar a data de nascimento
     private String email; //atributo para armazenar o e-mail
     private String telefone; //atributo usado para armazenar o número de telefone
     private String nacionalidade; //atributo para armazenar a nacionalidade
+
+    @OneToOne(mappedBy = "curriculo", cascade = CascadeType.ALL)
+    private Curriculo curriculo;
 
     //construtor vazio para o JavaFX
     public Candidato() {

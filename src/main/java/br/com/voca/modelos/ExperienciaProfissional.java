@@ -1,18 +1,32 @@
 package br.com.voca.modelos;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate; //biblioteca utilizada para representar datas
 import java.time.format.DateTimeFormatter; //biblioteca para formatar e analisar datas
 import java.time.format.DateTimeParseException; //classe para tratar erros de conversão
 import java.util.ArrayList; //biblioteca para criar array redimensionáveis
 import java.util.List; //interface para definir uma lista ordenada de elementos
 
+@Entity
+@Table(name = "experiencias_profissionais")
 public class ExperienciaProfissional {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String nomeEmpresa; //atributo para armazenar o nome da empresa em que o usuário trabalhou
     private String cargoOcupado; //atributo para armazenar o cargo que o usuário trabalhou
     private LocalDate inicio; //atributo para armazenar a data de início do trabalho
     private LocalDate fim; //atributo para armazenar a data de finalização do trabalho
     private String palavraChave; //atributo para armazenar uma palavra-chave
+    @ElementCollection
+    @CollectionTable(name = "experiencia_palavras_chave", joinColumns = @JoinColumn(name = "experiencia_id"))
+    @Column(name = "palavra_chave")
     private List<String> palavras; //lista para armazenar um conjunto de palavras-chave
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "curriculo_id")
+    private Curriculo curriculo;
 
     //construtor vazio para o JavaFx
     public ExperienciaProfissional () {

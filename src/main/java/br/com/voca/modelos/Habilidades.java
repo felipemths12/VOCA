@@ -1,9 +1,21 @@
 package br.com.voca.modelos;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "habilidade")
 public class Habilidades {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(unique = true)
     private String habilidade; //atributo para armazenar a habilidade do usuário
     private Nivel nivel; //atributo utilizando Enum para o atributo receber valores fixos pré-determinados
     private String nivelStr; //String para armazenar a situação e ser convertida para o Enum
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "curriculo_id")
+    private Curriculo curriculo;
 
     //construtor vazio para o JavaFX
     public Habilidades () {

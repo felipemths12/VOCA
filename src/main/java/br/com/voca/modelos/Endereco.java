@@ -1,12 +1,22 @@
 package br.com.voca.modelos;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "endereco")
 public class Endereco {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String cep;
     private String logradouro;
     private String bairro;
     private String localidade;
     private String uf;
     private String numero;
+
+    @OneToOne(mappedBy = "curriculo", cascade = CascadeType.ALL)
+    private Curriculo curriculo;
 
     public Endereco (String cep, String logradouro, String bairro,
                      String localidade, String uf, String numero) {
@@ -16,6 +26,10 @@ public class Endereco {
         this.localidade = localidade;
         this.uf = uf;
         this.numero = numero;
+    }
+
+    public Endereco() {
+
     }
 
     public String getCep() {

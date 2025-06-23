@@ -1,10 +1,17 @@
 package br.com.voca.modelos;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate; //biblioteca utilizada para representar datas
 import java.time.format.DateTimeFormatter; //biblioteca para formatar e analisar datas
 import java.time.format.DateTimeParseException; //classe para tratar erros de conversão
 
+@Entity
+@Table(name = "formacoes_academicas")
 public class FormacaoAcademica {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String curso; //atributo para armazenar o nome do curso
     private String instituicao; //atributo para armazenar o nome da instituição de ensino
     private String areaAtuacao; //atributo para armazenar area de atuação do candidato
@@ -12,6 +19,10 @@ public class FormacaoAcademica {
     private LocalDate dataConclusao; //atributo para armazenar a data de conclusão do curso
     private SituacaoCurso situacaoCurso;//atributo utilizando Enum para o atributo receber valores fixos pré-determinados
     private String situacaoCursoStr; //String para armazenar a situação e ser convertida para o Enum
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "curriculo_id")
+    private Curriculo curriculo;
 
     //construtor vazio para o JavaFX
     public FormacaoAcademica () {

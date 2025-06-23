@@ -1,9 +1,21 @@
 package br.com.voca.modelos;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "idioma")
 public class Idioma {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(unique = true)
     private String idioma;
     private String nivelStr;
     private Nivel nivel;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "curriculo_id")
+    private Curriculo curriculo;
 
     //construtor vazio para o JavaFX
     public Idioma () {
