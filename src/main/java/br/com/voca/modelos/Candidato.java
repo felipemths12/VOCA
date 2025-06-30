@@ -6,14 +6,12 @@ import java.time.LocalDate; //biblioteca utilizada para representar datas
 import java.time.format.DateTimeFormatter; //biblioteca para formatar e analisar datas
 import java.time.format.DateTimeParseException; //classe para tratar erros de conversão
 
-//anotação da JPA para mapear uma classe como tabela
 @Entity
 public class Candidato {
-    //anotação da JPA para definir um id para cada objeto Candidato
+
     @Id
-    //anotação da JPA para definir como o id vai ser gerado, nesse caso, será incremental
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; //anotação da JPA para definir um id para cada objeto Candidato
     private String nome; //atributo para armazenar o nome
     private LocalDate dataNascimento; //atributo para armazenar a data de nascimento
     private String email; //atributo para armazenar o e-mail
@@ -23,11 +21,9 @@ public class Candidato {
     @OneToOne(mappedBy = "candidato", cascade = CascadeType.ALL)
     private Curriculo curriculo;
 
-    //construtor vazio para o JavaFX
     public Candidato() {
     }
 
-    //construtor completo para instanciar um objeto do tipo Candidato
     public Candidato (String nome, String dataNascimento, String email,
                       String telefone, String nacionalidade) {
         setNome(nome);
@@ -37,7 +33,6 @@ public class Candidato {
         setNacionalidade(nacionalidade);
     }
 
-    //setter do nome com validação contra string nula ou vazia
     public void setNome (String nome) {
         if(nome != null && !nome.isBlank()) {
             this.nome = nome;

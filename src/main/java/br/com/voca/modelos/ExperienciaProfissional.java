@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 import java.time.LocalDate; //biblioteca utilizada para representar datas
 import java.time.format.DateTimeFormatter; //biblioteca para formatar e analisar datas
 import java.time.format.DateTimeParseException; //classe para tratar erros de conversão
-import java.util.ArrayList; //biblioteca para criar array redimensionáveis
-import java.util.List; //interface para definir uma lista ordenada de elementos
+import java.util.HashSet; //biblioteca para criar array redimensionáveis
+import java.util.Set; //interface para definir uma lista ordenada de elementos
 
 //anotação da JPA para mapear uma classe como tabela
 @Entity
@@ -26,7 +26,7 @@ public class ExperienciaProfissional {
     @ElementCollection
     @CollectionTable(name = "experiencia_palavras_chave", joinColumns = @JoinColumn(name = "experiencia_id"))
     @Column(name = "palavra_chave")
-    private List<String> palavras; //lista para armazenar um conjunto de palavras-chave
+    private Set<String> palavras; //lista para armazenar um conjunto de palavras-chave
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "curriculo_id")
@@ -35,7 +35,7 @@ public class ExperienciaProfissional {
     //construtor vazio para o JavaFx
     public ExperienciaProfissional () {
         // CORREÇÃO: Inicializando a lista para evitar NullPointerException
-        this.palavras = new ArrayList<>();
+        this.palavras = new HashSet<>();
     }
 
     //construtor completo para instanciar um objeto do tipo Experiencia profissional
@@ -47,7 +47,7 @@ public class ExperienciaProfissional {
         setFim(fim);
         setPalavraChave(palavraChave);
         // CORREÇÃO: Inicializando a lista para evitar NullPointerException
-        this.palavras = new ArrayList<>();
+        this.palavras = new HashSet<>();
     }
 
     //setter do nome da empresa com validação contra string nula ou vazia
@@ -96,7 +96,7 @@ public class ExperienciaProfissional {
     /*metodo para adicionar uma palavra-chave à lista, com verificações contra String nula e vazia, impedindo
     também que tenham palavras duplicadas*/
     public void adicionarPalavras() {
-        if (palavraChave != null && !palavraChave.isBlank() && !palavras.contains(palavraChave)) {
+        if (palavraChave != null && !palavraChave.isBlank()) {
             palavras.add(palavraChave);
         }
     }
@@ -119,7 +119,7 @@ public class ExperienciaProfissional {
         return fim;
     }
 
-    public List<String> getPalavras() {
+    public Set<String> getPalavras() {
         return palavras;
     }
 

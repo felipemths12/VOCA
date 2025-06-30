@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 
 //anotação da JPA para mapear uma classe como tabela
 @Entity
-//anotação da JPA para definir um nome para a tabela
-@Table(name = "habilidade")
+// CORREÇÃO: Define que a combinação de curriculo_id e habilidade deve ser única.
+@Table(name = "habilidade", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"curriculo_id", "habilidade"})
+})
 public class Habilidades {
     //anotação da JPA para definir um id para cada objeto Habilidades
     @Id
@@ -13,7 +15,7 @@ public class Habilidades {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    // A anotação @Column(unique = true) foi removida daqui.
     private String habilidade; //atributo para armazenar a habilidade do usuário
 
     @Enumerated(EnumType.STRING) // CORREÇÃO: Salva o Enum como texto

@@ -10,7 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashSet;
 
 public class CandidatoController {
 
@@ -174,10 +174,10 @@ public class CandidatoController {
             // 3. Cria o Currículo e associa as informações
             Curriculo curriculo = new Curriculo();
             curriculo.setEndereco(endereco);
-            curriculo.setFormacaoAcademica(new ArrayList<>(formacaoData));
-            curriculo.setExperienciaProfissional(new ArrayList<>(experienciaData));
-            curriculo.setHabilidades(new ArrayList<>(habilidadesData));
-            curriculo.setIdioma(new ArrayList<>(idiomasData));
+            curriculo.setFormacaoAcademica(new HashSet<>(formacaoData));
+            curriculo.setExperienciaProfissional(new HashSet<>(experienciaData));
+            curriculo.setHabilidades(new HashSet<>(habilidadesData));
+            curriculo.setIdioma(new HashSet<>(idiomasData));
 
             // 4. Define as relações bidirecionais
             curriculo.getFormacaoAcademica().forEach(f -> f.setCurriculo(curriculo));
