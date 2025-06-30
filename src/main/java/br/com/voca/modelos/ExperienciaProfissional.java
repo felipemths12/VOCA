@@ -8,10 +8,14 @@ import java.time.format.DateTimeParseException; //classe para tratar erros de co
 import java.util.ArrayList; //biblioteca para criar array redimensionáveis
 import java.util.List; //interface para definir uma lista ordenada de elementos
 
+//anotação da JPA para mapear uma classe como tabela
 @Entity
+//anotação da JPA para definir um nome para a tabela
 @Table(name = "experiencias_profissionais")
 public class ExperienciaProfissional {
+    //anotação da JPA para definir um id para cada objeto ExperienciaProfissional
     @Id
+    //anotação da JPA para definir como o id vai ser gerado, nesse caso, será incremental
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nomeEmpresa; //atributo para armazenar o nome da empresa em que o usuário trabalhou

@@ -6,9 +6,12 @@ import java.time.LocalDate; //biblioteca utilizada para representar datas
 import java.time.format.DateTimeFormatter; //biblioteca para formatar e analisar datas
 import java.time.format.DateTimeParseException; //classe para tratar erros de conversão
 
+//anotação da JPA para mapear uma classe como tabela
 @Entity
 public class Candidato {
+    //anotação da JPA para definir um id para cada objeto Candidato
     @Id
+    //anotação da JPA para definir como o id vai ser gerado, nesse caso, será incremental
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome; //atributo para armazenar o nome
