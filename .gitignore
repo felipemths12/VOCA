@@ -5,6 +5,7 @@ out/
 .idea/
 src/br/com/VOCA/testes/
 *.iml
+/target/
 
 ### Eclipse ###
 .apt_generated
