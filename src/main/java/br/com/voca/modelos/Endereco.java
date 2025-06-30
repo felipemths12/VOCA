@@ -19,7 +19,8 @@ public class Endereco {
     private String uf;
     private String numero;
 
-    @OneToOne(mappedBy = "curriculo", cascade = CascadeType.ALL)
+    // LINHA CORRIGIDA ABAIXO
+    @OneToOne(mappedBy = "endereco", cascade = CascadeType.ALL)
     private Curriculo curriculo;
 
     public Endereco (String cep, String logradouro, String bairro,
