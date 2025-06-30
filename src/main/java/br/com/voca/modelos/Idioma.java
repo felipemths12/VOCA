@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 
 //anotação da JPA para mapear uma classe como tabela
 @Entity
-//anotação da JPA para definir um nome para a tabela
-@Table(name = "idioma")
+// CORREÇÃO: Define que a combinação de curriculo_id e idioma deve ser única.
+@Table(name = "idioma", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"curriculo_id", "idioma"})
+})
 public class Idioma {
     //anotação da JPA para definir um id para cada objeto Idioma
     @Id
@@ -13,7 +15,7 @@ public class Idioma {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    // A anotação @Column(unique = true) foi removida daqui.
     private String idioma;
 
     @Transient // CORREÇÃO: Ignora este campo no banco de dados

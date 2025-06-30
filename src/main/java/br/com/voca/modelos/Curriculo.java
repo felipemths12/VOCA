@@ -1,7 +1,8 @@
 package br.com.voca.modelos;
 
 import jakarta.persistence.*;
-import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 
 //anotação da JPA para mapear uma classe como tabela
 @Entity
@@ -23,16 +24,16 @@ public class Curriculo {
     private Endereco endereco;
 
     @OneToMany(mappedBy = "curriculo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<ExperienciaProfissional>  experienciaProfissional;
+    private Set<ExperienciaProfissional>  experienciaProfissional = new HashSet<>();
 
     @OneToMany(mappedBy = "curriculo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<FormacaoAcademica> formacaoAcademica;
+    private Set<FormacaoAcademica> formacaoAcademica = new HashSet<>();
 
     @OneToMany(mappedBy = "curriculo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Habilidades> habilidades;
+    private Set<Habilidades> habilidades = new HashSet<>();
 
     @OneToMany(mappedBy = "curriculo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Idioma> idioma;
+    private Set<Idioma> idioma = new HashSet<>();
 
     // --- GETTERS E SETTERS ADICIONADOS ---
 
@@ -60,35 +61,35 @@ public class Curriculo {
         this.endereco = endereco;
     }
 
-    public List<ExperienciaProfissional> getExperienciaProfissional() {
+    public Set<ExperienciaProfissional> getExperienciaProfissional() {
         return experienciaProfissional;
     }
 
-    public void setExperienciaProfissional(List<ExperienciaProfissional> experienciaProfissional) {
+    public void setExperienciaProfissional(Set<ExperienciaProfissional> experienciaProfissional) {
         this.experienciaProfissional = experienciaProfissional;
     }
 
-    public List<FormacaoAcademica> getFormacaoAcademica() {
+    public Set<FormacaoAcademica> getFormacaoAcademica() {
         return formacaoAcademica;
     }
 
-    public void setFormacaoAcademica(List<FormacaoAcademica> formacaoAcademica) {
+    public void setFormacaoAcademica(Set<FormacaoAcademica> formacaoAcademica) {
         this.formacaoAcademica = formacaoAcademica;
     }
 
-    public List<Habilidades> getHabilidades() {
+    public Set<Habilidades> getHabilidades() {
         return habilidades;
     }
 
-    public void setHabilidades(List<Habilidades> habilidades) {
+    public void setHabilidades(Set<Habilidades> habilidades) {
         this.habilidades = habilidades;
     }
 
-    public List<Idioma> getIdioma() {
+    public Set<Idioma> getIdioma() {
         return idioma;
     }
 
-    public void setIdioma(List<Idioma> idioma) {
+    public void setIdioma(Set<Idioma> idioma) {
         this.idioma = idioma;
     }
 }
