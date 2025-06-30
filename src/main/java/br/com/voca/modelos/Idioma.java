@@ -12,9 +12,14 @@ public class Idioma {
     //anotação da JPA para definir como o id vai ser gerado, nesse caso, será incremental
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(unique = true)
     private String idioma;
+
+    @Transient // CORREÇÃO: Ignora este campo no banco de dados
     private String nivelStr;
+
+    @Enumerated(EnumType.STRING) // CORREÇÃO: Salva o Enum como texto
     private Nivel nivel;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -63,5 +68,18 @@ public class Idioma {
 
     public Nivel getNivel() {
         return nivel;
+    }
+
+    // CORREÇÃO: Adicionando getters e setters que faltavam
+    public Long getId() {
+        return id;
+    }
+
+    public Curriculo getCurriculo() {
+        return curriculo;
+    }
+
+    public void setCurriculo(Curriculo curriculo) {
+        this.curriculo = curriculo;
     }
 }

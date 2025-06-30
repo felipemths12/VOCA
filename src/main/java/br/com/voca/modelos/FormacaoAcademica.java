@@ -21,7 +21,11 @@ public class FormacaoAcademica {
     private String areaAtuacao; //atributo para armazenar area de atuação do candidato
     private LocalDate dataInicio; //atributo para armazenar a data de inicio do curso
     private LocalDate dataConclusao; //atributo para armazenar a data de conclusão do curso
+
+    @Enumerated(EnumType.STRING) // CORREÇÃO: Informa ao JPA para salvar o Enum como texto (ex: "CONCLUIDO")
     private SituacaoCurso situacaoCurso;//atributo utilizando Enum para o atributo receber valores fixos pré-determinados
+
+    @Transient // CORREÇÃO: Informa ao JPA para NÃO salvar este campo no banco de dados
     private String situacaoCursoStr; //String para armazenar a situação e ser convertida para o Enum
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -128,5 +132,18 @@ public class FormacaoAcademica {
 
     public SituacaoCurso getSituacaoCurso() {
         return situacaoCurso;
+    }
+
+    // CORREÇÃO: Adicionando getters e setters que faltavam
+    public Long getId() {
+        return id;
+    }
+
+    public Curriculo getCurriculo() {
+        return curriculo;
+    }
+
+    public void setCurriculo(Curriculo curriculo) {
+        this.curriculo = curriculo;
     }
 }

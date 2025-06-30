@@ -20,7 +20,7 @@ public class Candidato {
     private String telefone; //atributo usado para armazenar o número de telefone
     private String nacionalidade; //atributo para armazenar a nacionalidade
 
-    @OneToOne(mappedBy = "curriculo", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "candidato", cascade = CascadeType.ALL)
     private Curriculo curriculo;
 
     //construtor vazio para o JavaFX
@@ -82,6 +82,10 @@ public class Candidato {
 
     //getters para retornar os atributos da classe
 
+    public Long getId() {
+        return id;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -100,5 +104,14 @@ public class Candidato {
 
     public String getNacionalidade() {
         return nacionalidade;
+    }
+
+    // --- GETTER E SETTER ADICIONADOS ---
+    public Curriculo getCurriculo() {
+        return curriculo;
+    }
+
+    public void setCurriculo(Curriculo curriculo) {
+        this.curriculo = curriculo;
     }
 }

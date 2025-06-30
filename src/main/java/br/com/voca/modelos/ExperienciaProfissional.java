@@ -34,6 +34,8 @@ public class ExperienciaProfissional {
 
     //construtor vazio para o JavaFx
     public ExperienciaProfissional () {
+        // CORREÇÃO: Inicializando a lista para evitar NullPointerException
+        this.palavras = new ArrayList<>();
     }
 
     //construtor completo para instanciar um objeto do tipo Experiencia profissional
@@ -44,6 +46,7 @@ public class ExperienciaProfissional {
         setInicio(inicio);
         setFim(fim);
         setPalavraChave(palavraChave);
+        // CORREÇÃO: Inicializando a lista para evitar NullPointerException
         this.palavras = new ArrayList<>();
     }
 
@@ -118,5 +121,18 @@ public class ExperienciaProfissional {
 
     public List<String> getPalavras() {
         return palavras;
+    }
+
+    // Adicione também os getters e setters para os campos que faltam
+    public Long getId() {
+        return id;
+    }
+
+    public Curriculo getCurriculo() {
+        return curriculo;
+    }
+
+    public void setCurriculo(Curriculo curriculo) {
+        this.curriculo = curriculo;
     }
 }

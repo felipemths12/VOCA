@@ -12,9 +12,14 @@ public class Habilidades {
     //anotação da JPA para definir como o id vai ser gerado, nesse caso, será incremental
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(unique = true)
     private String habilidade; //atributo para armazenar a habilidade do usuário
+
+    @Enumerated(EnumType.STRING) // CORREÇÃO: Salva o Enum como texto
     private Nivel nivel; //atributo utilizando Enum para o atributo receber valores fixos pré-determinados
+
+    @Transient // CORREÇÃO: Ignora este campo no banco de dados
     private String nivelStr; //String para armazenar a situação e ser convertida para o Enum
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -63,5 +68,18 @@ public class Habilidades {
 
     public Nivel getNivel() {
         return nivel;
+    }
+
+    // CORREÇÃO: Adicionando getters e setters que faltavam
+    public Long getId() {
+        return id;
+    }
+
+    public Curriculo getCurriculo() {
+        return curriculo;
+    }
+
+    public void setCurriculo(Curriculo curriculo) {
+        this.curriculo = curriculo;
     }
 }

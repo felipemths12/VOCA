@@ -37,11 +37,11 @@ public class Testes {
             System.out.println("Candidato atualizado: " + candidatoEncontrado.getNome() + " - Novo Telefone: " + candidatoEncontrado.getTelefone());
         }
 
-        // --- DELETE ---
-        // Cuidado ao executar, isso removerá o registro do banco!
-        // System.out.println("\n--- Removendo o candidato com ID 1 ---");
-        // candidatoDAO.remover(1L);
-        // System.out.println("Candidato removido.");
+        //--- DELETE ---
+        //Cuidado ao executar, isso removerá o registro do banco!
+        System.out.println("\n--- Removendo o candidato com ID 1 ---");
+        candidatoDAO.remover(1L);
+        System.out.println("Candidato removido.");
 
         // Fecha a conexão ao final
         candidatoDAO.fechar();
