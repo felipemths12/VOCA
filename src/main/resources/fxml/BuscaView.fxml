@@ -26,6 +26,8 @@
                 <TableColumn fx:id="resultadoNomeColumn" prefWidth="250.0" text="Nome do Candidato" />
                 <TableColumn fx:id="resultadoEmailColumn" prefWidth="250.0" text="Email" />
                 <TableColumn fx:id="resultadoTelefoneColumn" prefWidth="150.0" text="Telefone" />
+                <TableColumn fx:id="resultadoAreaColumn" prefWidth="150.0" text="Área de Atuação" />
+                <TableColumn fx:id="resultadoExperienciaColumn" prefWidth="120.0" text="Experiência" />
             </columns>
             <placeholder>
                 <Label text="Nenhum candidato encontrado. Realize uma busca para ver os resultados." />

@@ -17,33 +17,33 @@ public class GenericDAO<T> {
         this.entityClass = entityClass;
     }
 
-    // CREATE: Salva uma nova entidade
+    // Salva uma nova entidade.
     public void salvar(T entity) {
         em.getTransaction().begin();
         em.persist(entity);
         em.getTransaction().commit();
     }
 
-    // READ: Busca uma entidade pelo ID
+    // Busca uma entidade pelo ID.
     public T buscarPorId(Object id) {
         return em.find(entityClass, id);
     }
 
-    // READ: Lista todas as entidades
+    // Lista todas as entidades.
     public List<T> buscarTodos() {
         CriteriaQuery<T> cq = em.getCriteriaBuilder().createQuery(entityClass);
         cq.select(cq.from(entityClass));
         return em.createQuery(cq).getResultList();
     }
 
-    // UPDATE: Atualiza uma entidade existente
+    // Atualiza uma entidade existente.
     public void atualizar(T entity) {
         em.getTransaction().begin();
         em.merge(entity);
         em.getTransaction().commit();
     }
 
-    // DELETE: Remove uma entidade
+    // Remove uma entidade.
     public void remover(Object id) {
         T entity = buscarPorId(id);
         if (entity != null) {
@@ -53,14 +53,14 @@ public class GenericDAO<T> {
         }
     }
 
-    // Método para fechar a conexão
+    // Fecha a conexão do EntityManager.
     public void fechar() {
         if (em.isOpen()) {
             em.close();
         }
     }
 
-    // Método estático para fechar a factory, chame no final da aplicação
+    // Fecha o EntityManagerFactory. Chamar no final da aplicação.
     public static void fecharFactory() {
         if (emf.isOpen()) {
             emf.close();

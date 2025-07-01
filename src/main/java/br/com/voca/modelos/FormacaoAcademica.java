@@ -2,41 +2,37 @@ package br.com.voca.modelos;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate; //biblioteca utilizada para representar datas
-import java.time.format.DateTimeFormatter; //biblioteca para formatar e analisar datas
-import java.time.format.DateTimeParseException; //classe para tratar erros de conversão
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
-//anotação da JPA para mapear uma classe como tabela
+// Mapeia a classe para a tabela "formacoes_academicas".
 @Entity
-//anotação da JPA para definir um nome para a tabela
 @Table(name = "formacoes_academicas")
 public class FormacaoAcademica {
-    //anotação da JPA para definir um id para cada objeto FormacaoAcademica
+    // Define o ID e a estratégia de geração.
     @Id
-    //anotação da JPA para definir como o id vai ser gerado, nesse caso, será incremental
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String curso; //atributo para armazenar o nome do curso
-    private String instituicao; //atributo para armazenar o nome da instituição de ensino
-    private String areaAtuacao; //atributo para armazenar area de atuação do candidato
-    private LocalDate dataInicio; //atributo para armazenar a data de inicio do curso
-    private LocalDate dataConclusao; //atributo para armazenar a data de conclusão do curso
+    private String curso; // Nome do curso.
+    private String instituicao; // Nome da instituição.
+    private String areaAtuacao; // Área de atuação.
+    private LocalDate dataInicio; // Data de início.
+    private LocalDate dataConclusao; // Data de conclusão.
 
-    @Enumerated(EnumType.STRING) // CORREÇÃO: Informa ao JPA para salvar o Enum como texto (ex: "CONCLUIDO")
-    private SituacaoCurso situacaoCurso;//atributo utilizando Enum para o atributo receber valores fixos pré-determinados
+    @Enumerated(EnumType.STRING) // Salva o Enum como texto.
+    private SituacaoCurso situacaoCurso;
 
-    @Transient // CORREÇÃO: Informa ao JPA para NÃO salvar este campo no banco de dados
-    private String situacaoCursoStr; //String para armazenar a situação e ser convertida para o Enum
+    @Transient // Não salva este campo no banco.
+    private String situacaoCursoStr;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "curriculo_id")
     private Curriculo curriculo;
 
-    //construtor vazio para o JavaFX
     public FormacaoAcademica () {
     }
 
-    //construtor completo para instanciar um objeto do tipo FormacaoAcademica
     public FormacaoAcademica (String curso, String instituicao, String areaAtuacao,
                               String dataInicio, String dataConclusao, String situacaoCursoStr) {
         setCurso(curso);
@@ -46,7 +42,7 @@ public class FormacaoAcademica {
         setDataConclusao(dataConclusao);
         setSituacaoCurso(situacaoCursoStr);
     }
-    //enumeração de valores fixos (constantes) para a situação do curso utilizando a classe Enum
+
     public enum SituacaoCurso {
         CONCLUIDO,
         CURSANDO,
@@ -54,62 +50,55 @@ public class FormacaoAcademica {
         DESISTENTE
     }
 
-    //setter do nome do curso com validação contra string nula ou vazia
     public void setCurso(String curso) {
         if (curso != null && !curso.isBlank()) {
             this.curso = curso;
         }
     }
 
-    //setter do nome da instituição com validação contra string nula ou vazia
     public void setInstituicao(String instituicao) {
         if (instituicao != null && !instituicao.isBlank()) {
             this.instituicao = instituicao;
         }
     }
 
-    //setter do nome do curso com validação contra string nula ou vazia
     public void setAreaAtuacao(String areaAtuacao) {
         if (areaAtuacao != null && !areaAtuacao.isBlank()) {
             this.areaAtuacao = areaAtuacao;
         }
     }
 
-    /*setter da data de início do curso que utiliza um formatador para especificar o formato e converte a String em um
-    atributo do tipo LocalDate seguindo o padrão mm/aaaa*/
+    // Converte a String de data de início para LocalDate.
     public void setDataInicio (String dataInicio) {
         DateTimeFormatter formatador = DateTimeFormatter.ofPattern("MM/yyyy");
         try {
             this.dataInicio = LocalDate.parse(dataInicio, formatador);
         } catch (DateTimeParseException e) {
-            //implementar o tratamento da exceção baseado no front-end
+            // Tratamento de exceção.
         }
     }
 
-    /*setter da data de conclusão do curso que utiliza um formatador para especificar o formato e converte a String em um
-    atributo do tipo LocalDate seguindo o padrão mm/aaaa*/
+    // Converte a String de data de conclusão para LocalDate.
     public void setDataConclusao (String dataConclusao) {
         DateTimeFormatter formatador = DateTimeFormatter.ofPattern("MM/yyyy");
         try {
             this.dataConclusao = LocalDate.parse(dataConclusao, formatador);
         } catch (DateTimeParseException e) {
-            //implementar o tratamento da exceção baseado no front-end
+            // Tratamento de exceção.
         }
     }
 
-    /*setter da situação do curso. recebe uma string, deixa-a em letras maiúsculas e converte para o tipo Enum e atribui
-    ao atributo Enum situacaoCurso*/
+    // Converte a String de situação do curso para o Enum.
     public void setSituacaoCurso(String situacaoCurso) {
         try {
             this.situacaoCurso = SituacaoCurso.valueOf(situacaoCurso.toUpperCase());
         } catch (IllegalArgumentException e) {
-            //implementar o tratamento da exceção baseado no front-end
+            // Tratamento de exceção.
         }
     }
 
 
-    //getters para retornar os atributos da classe
-
+    // Getters
     public String getCurso() {
         return curso;
     }
@@ -134,7 +123,6 @@ public class FormacaoAcademica {
         return situacaoCurso;
     }
 
-    // CORREÇÃO: Adicionando getters e setters que faltavam
     public Long getId() {
         return id;
     }

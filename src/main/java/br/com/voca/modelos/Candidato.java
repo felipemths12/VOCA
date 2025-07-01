@@ -2,21 +2,21 @@ package br.com.voca.modelos;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate; //biblioteca utilizada para representar datas
-import java.time.format.DateTimeFormatter; //biblioteca para formatar e analisar datas
-import java.time.format.DateTimeParseException; //classe para tratar erros de conversão
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 @Entity
 public class Candidato {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; //anotação da JPA para definir um id para cada objeto Candidato
-    private String nome; //atributo para armazenar o nome
-    private LocalDate dataNascimento; //atributo para armazenar a data de nascimento
-    private String email; //atributo para armazenar o e-mail
-    private String telefone; //atributo usado para armazenar o número de telefone
-    private String nacionalidade; //atributo para armazenar a nacionalidade
+    private Long id; // ID do candidato.
+    private String nome; // Nome do candidato.
+    private LocalDate dataNascimento; // Data de nascimento.
+    private String email; // E-mail do candidato.
+    private String telefone; // Telefone do candidato.
+    private String nacionalidade; // Nacionalidade do candidato.
 
     @OneToOne(mappedBy = "candidato", cascade = CascadeType.ALL)
     private Curriculo curriculo;
@@ -39,7 +39,7 @@ public class Candidato {
         }
     }
 
-    //setter do email com validação usando regex (formato nome@dominio.com ou nome@dominio.com.br e suas variações)
+    // Valida o e-mail com regex.
     public void setEmail(String email) {
         if (email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
             this.email = email;
@@ -48,7 +48,7 @@ public class Candidato {
         }
     }
 
-    //setter do telefone usando regex para validação (formato (xx) 9xxxx-xxxx)
+    // Valida o telefone com regex.
     public void setTelefone(String telefone) {
         if (telefone.matches("^\\(\\d{2}\\) 9\\d{4}-\\d{4}$")) {
             this.telefone = telefone;
@@ -57,26 +57,23 @@ public class Candidato {
         }
     }
 
-    /*setter da data de nascimento que utiliza um formatador para especificar o formato e converte a String em um
-    atributo do tipo LocalDate seguindo o padrão dd/mm/aaaa*/
+    // Converte a String de data de nascimento para LocalDate.
     public void setDataNascimento (String dataNascimento) {
         DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         try {
             this.dataNascimento = LocalDate.parse(dataNascimento, formatador);
         } catch (DateTimeParseException e) {
-            //implementar o tratamento da exceção baseado no front-end
+            // Tratamento de exceção (a ser implementado no front-end).
         }
     }
 
-    //setter da nacionalidade om validação contra string nula ou vazia
     public void setNacionalidade(String nacionalidade) {
         if(nacionalidade != null && !nacionalidade.isBlank()) {
             this.nacionalidade = nacionalidade;
         }
     }
 
-    //getters para retornar os atributos da classe
-
+    // Getters
     public Long getId() {
         return id;
     }
@@ -101,7 +98,6 @@ public class Candidato {
         return nacionalidade;
     }
 
-    // --- GETTER E SETTER ADICIONADOS ---
     public Curriculo getCurriculo() {
         return curriculo;
     }

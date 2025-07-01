@@ -3,93 +3,117 @@ package br.com.voca.gui;
 import br.com.voca.dao.CandidatoDAO;
 import br.com.voca.modelos.*;
 import br.com.voca.service.EnderecoRequisicao;
-import br.com.voca.service.ExportacaoService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
-import java.util.List;
 
 public class CandidatoController {
 
-    // --- DAOs ---
+    // DAOs e Serviços
     private final CandidatoDAO candidatoDAO = new CandidatoDAO();
     private final EnderecoRequisicao enderecoRequisicao = new EnderecoRequisicao();
 
-    // --- Campos Candidato e Endereço ---
+    // Campos do Candidato e Endereço
     @FXML private TextField nomeField, dataNascimentoField, emailField, telefoneField, nacionalidadeField;
     @FXML private TextField cepField, logradouroField, numeroField, bairroField, localidadeField, ufField;
 
-    // --- Componentes Formação Acadêmica ---
+    // Componentes de Formação Acadêmica
     @FXML private TableView<FormacaoAcademica> formacaoTable;
     @FXML private TableColumn<FormacaoAcademica, String> cursoColumn, instituicaoColumn, situacaoColumn;
+    @FXML private TableColumn<FormacaoAcademica, LocalDate> formacaoInicioColumn;
+    @FXML private TableColumn<FormacaoAcademica, LocalDate> formacaoFimColumn;
     @FXML private TextField formacaoCursoField, formacaoInstituicaoField, formacaoAreaField, formacaoInicioField, formacaoFimField;
     @FXML private ComboBox<FormacaoAcademica.SituacaoCurso> formacaoSituacaoCombo;
     private final ObservableList<FormacaoAcademica> formacaoData = FXCollections.observableArrayList();
 
-    // --- Componentes Experiência Profissional ---
+    // Componentes de Experiência Profissional
     @FXML private TableView<ExperienciaProfissional> experienciaTable;
     @FXML private TableColumn<ExperienciaProfissional, String> empresaColumn, cargoColumn;
+    @FXML private TableColumn<ExperienciaProfissional, LocalDate> expInicioColumn;
+    @FXML private TableColumn<ExperienciaProfissional, LocalDate> expFimColumn;
     @FXML private TextField expEmpresaField, expCargoField, expInicioField, expFimField, expPalavraChaveField;
     private final ObservableList<ExperienciaProfissional> experienciaData = FXCollections.observableArrayList();
 
-    // --- Componentes Habilidades ---
+    // Componentes de Habilidades
     @FXML private TableView<Habilidades> habilidadesTable;
     @FXML private TableColumn<Habilidades, String> habilidadeColumn, habilidadeNivelColumn;
     @FXML private TextField habilidadeField;
     @FXML private ComboBox<Habilidades.Nivel> habilidadeNivelCombo;
     private final ObservableList<Habilidades> habilidadesData = FXCollections.observableArrayList();
 
-    // --- Componentes Idiomas ---
+    // Componentes de Idiomas
     @FXML private TableView<Idioma> idiomasTable;
     @FXML private TableColumn<Idioma, String> idiomaColumn, idiomaNivelColumn;
     @FXML private TextField idiomaField;
     @FXML private ComboBox<Idioma.Nivel> idiomaNivelCombo;
     private final ObservableList<Idioma> idiomasData = FXCollections.observableArrayList();
 
-    // --- Componentes de Filtro e Resultados ---
-    @FXML private TextField filtroAreaField;
-    @FXML private TextField filtroAnosExpField;
-    @FXML private Button exportarPdfButton;
-
-    @FXML private TableView<Candidato> resultadosTable;
-    @FXML private TableColumn<Candidato, String> resultadoNomeColumn;
-    @FXML private TableColumn<Candidato, String> resultadoEmailColumn;
-    @FXML private TableColumn<Candidato, String> resultadoTelefoneColumn;
-
-    // Lista para armazenar os resultados da busca
-    private ObservableList<Candidato> resultadosData = FXCollections.observableArrayList();
-
-
     @FXML
     public void initialize() {
-        // Configura as tabelas e ComboBoxes
         configurarTabelas();
         configurarComboBoxes();
     }
 
     private void configurarTabelas() {
-        // Formação
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yyyy");
+
+        // Tabela de Formação Acadêmica
         cursoColumn.setCellValueFactory(new PropertyValueFactory<>("curso"));
         instituicaoColumn.setCellValueFactory(new PropertyValueFactory<>("instituicao"));
         situacaoColumn.setCellValueFactory(new PropertyValueFactory<>("situacaoCurso"));
+        formacaoInicioColumn.setCellValueFactory(new PropertyValueFactory<>("dataInicio"));
+        formacaoInicioColumn.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(item == null || empty ? null : formatter.format(item));
+            }
+        });
+        formacaoFimColumn.setCellValueFactory(new PropertyValueFactory<>("dataConclusao"));
+        formacaoFimColumn.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(item == null || empty ? null : formatter.format(item));
+            }
+        });
         formacaoTable.setItems(formacaoData);
 
-        // Experiência
+
+        // Tabela de Experiência Profissional
         empresaColumn.setCellValueFactory(new PropertyValueFactory<>("nomeEmpresa"));
         cargoColumn.setCellValueFactory(new PropertyValueFactory<>("cargoOcupado"));
+        expInicioColumn.setCellValueFactory(new PropertyValueFactory<>("inicio"));
+        expInicioColumn.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(item == null || empty ? null : formatter.format(item));
+            }
+        });
+        expFimColumn.setCellValueFactory(new PropertyValueFactory<>("fim"));
+        expFimColumn.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(item == null || empty ? null : formatter.format(item));
+            }
+        });
         experienciaTable.setItems(experienciaData);
 
-        // Habilidades
+
+        // Tabela de Habilidades
         habilidadeColumn.setCellValueFactory(new PropertyValueFactory<>("habilidade"));
         habilidadeNivelColumn.setCellValueFactory(new PropertyValueFactory<>("nivel"));
         habilidadesTable.setItems(habilidadesData);
 
-        // Idiomas
+        // Tabela de Idiomas
         idiomaColumn.setCellValueFactory(new PropertyValueFactory<>("idioma"));
         idiomaNivelColumn.setCellValueFactory(new PropertyValueFactory<>("nivel"));
         idiomasTable.setItems(idiomasData);
@@ -101,23 +125,25 @@ public class CandidatoController {
         idiomaNivelCombo.setItems(FXCollections.observableArrayList(Idioma.Nivel.values()));
     }
 
-    // --- Métodos de Ação ---
-
     @FXML
     private void buscarCep() {
+        // Busca o endereço a partir do CEP informado.
         try {
-            Endereco endereco = enderecoRequisicao.buscar(cepField.getText()); //
-            logradouroField.setText(endereco.getLogradouro()); //
-            bairroField.setText(endereco.getBairro()); //
-            localidadeField.setText(endereco.getLocalidade()); //
-            ufField.setText(endereco.getUf()); //
+            Endereco endereco = enderecoRequisicao.buscar(cepField.getText());
+            if (endereco != null) {
+                logradouroField.setText(endereco.getLogradouro());
+                bairroField.setText(endereco.getBairro());
+                localidadeField.setText(endereco.getLocalidade());
+                ufField.setText(endereco.getUf());
+            }
         } catch (IOException | InterruptedException e) {
-            showAlert(Alert.AlertType.ERROR, "Erro de API", "Não foi possível buscar o CEP.");
+            showAlert(Alert.AlertType.ERROR, "Erro de API", "Não foi possível buscar o CEP. Verifique o número e sua conexão.");
         }
     }
 
     @FXML
     private void adicionarFormacao() {
+        // Adiciona uma nova formação acadêmica à lista.
         FormacaoAcademica formacao = new FormacaoAcademica(
                 formacaoCursoField.getText(),
                 formacaoInstituicaoField.getText(),
@@ -132,6 +158,7 @@ public class CandidatoController {
 
     @FXML
     private void adicionarExperiencia() {
+        // Adiciona uma nova experiência profissional à lista.
         ExperienciaProfissional experiencia = new ExperienciaProfissional(
                 expEmpresaField.getText(),
                 expCargoField.getText(),
@@ -139,13 +166,14 @@ public class CandidatoController {
                 expFimField.getText(),
                 expPalavraChaveField.getText()
         );
-        experiencia.adicionarPalavras(); //
+        experiencia.adicionarPalavras();
         experienciaData.add(experiencia);
         limparCamposExperiencia();
     }
 
     @FXML
     private void adicionarHabilidade() {
+        // Adiciona uma nova habilidade à lista.
         Habilidades habilidade = new Habilidades(
                 habilidadeField.getText(),
                 habilidadeNivelCombo.getValue().toString()
@@ -156,6 +184,7 @@ public class CandidatoController {
 
     @FXML
     private void adicionarIdioma() {
+        // Adiciona um novo idioma à lista.
         Idioma idioma = new Idioma(
                 idiomaField.getText(),
                 idiomaNivelCombo.getValue().toString()
@@ -166,8 +195,8 @@ public class CandidatoController {
 
     @FXML
     private void salvarCurriculoCompleto() {
+        // Salva o currículo completo do candidato no banco de dados.
         try {
-            // 1. Cria o Candidato
             Candidato candidato = new Candidato(
                     nomeField.getText(),
                     dataNascimentoField.getText(),
@@ -176,7 +205,6 @@ public class CandidatoController {
                     nacionalidadeField.getText()
             );
 
-            // 2. Cria o Endereço
             Endereco endereco = new Endereco(
                     cepField.getText(),
                     logradouroField.getText(),
@@ -186,7 +214,6 @@ public class CandidatoController {
                     numeroField.getText()
             );
 
-            // 3. Cria o Currículo e associa as informações
             Curriculo curriculo = new Curriculo();
             curriculo.setEndereco(endereco);
             curriculo.setFormacaoAcademica(new HashSet<>(formacaoData));
@@ -194,17 +221,14 @@ public class CandidatoController {
             curriculo.setHabilidades(new HashSet<>(habilidadesData));
             curriculo.setIdioma(new HashSet<>(idiomasData));
 
-            // 4. Define as relações bidirecionais
             curriculo.getFormacaoAcademica().forEach(f -> f.setCurriculo(curriculo));
             curriculo.getExperienciaProfissional().forEach(e -> e.setCurriculo(curriculo));
             curriculo.getHabilidades().forEach(h -> h.setCurriculo(curriculo));
             curriculo.getIdioma().forEach(i -> i.setCurriculo(curriculo));
 
-            // 5. Associa o candidato ao currículo e vice-versa
             candidato.setCurriculo(curriculo);
             curriculo.setCandidato(candidato);
 
-            // 6. Salva o candidato (que salvará tudo em cascata)
             candidatoDAO.salvar(candidato);
 
             showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Currículo completo salvo com sucesso!");
@@ -218,27 +242,25 @@ public class CandidatoController {
 
     @FXML
     private void handleVoltar() {
+        // Retorna ao menu principal.
         MainApp.showMainMenuView();
     }
 
     @FXML
     private void limparTudo() {
-        // Limpa campos principais
+        // Limpa todos os campos do formulário.
         nomeField.clear(); dataNascimentoField.clear(); emailField.clear(); telefoneField.clear(); nacionalidadeField.clear();
         cepField.clear(); logradouroField.clear(); numeroField.clear(); bairroField.clear(); localidadeField.clear(); ufField.clear();
-        // Limpa tabelas e listas de dados
         formacaoData.clear();
         experienciaData.clear();
         habilidadesData.clear();
         idiomasData.clear();
-        // Limpa campos de formulários das abas
         limparCamposFormacao();
         limparCamposExperiencia();
         limparCamposHabilidade();
         limparCamposIdioma();
     }
 
-    // --- Métodos de Limpeza de Campos ---
     private void limparCamposFormacao() {
         formacaoCursoField.clear(); formacaoInstituicaoField.clear(); formacaoAreaField.clear();
         formacaoInicioField.clear(); formacaoFimField.clear(); formacaoSituacaoCombo.getSelectionModel().clearSelection();
