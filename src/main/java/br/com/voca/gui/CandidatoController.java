@@ -3,6 +3,7 @@ package br.com.voca.gui;
 import br.com.voca.dao.CandidatoDAO;
 import br.com.voca.modelos.*;
 import br.com.voca.service.EnderecoRequisicao;
+import br.com.voca.service.ExportacaoService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 
 public class CandidatoController {
 
@@ -48,6 +50,19 @@ public class CandidatoController {
     @FXML private TextField idiomaField;
     @FXML private ComboBox<Idioma.Nivel> idiomaNivelCombo;
     private final ObservableList<Idioma> idiomasData = FXCollections.observableArrayList();
+
+    // --- Componentes de Filtro e Resultados ---
+    @FXML private TextField filtroAreaField;
+    @FXML private TextField filtroAnosExpField;
+    @FXML private Button exportarPdfButton;
+
+    @FXML private TableView<Candidato> resultadosTable;
+    @FXML private TableColumn<Candidato, String> resultadoNomeColumn;
+    @FXML private TableColumn<Candidato, String> resultadoEmailColumn;
+    @FXML private TableColumn<Candidato, String> resultadoTelefoneColumn;
+
+    // Lista para armazenar os resultados da busca
+    private ObservableList<Candidato> resultadosData = FXCollections.observableArrayList();
 
 
     @FXML
@@ -199,6 +214,11 @@ public class CandidatoController {
             showAlert(Alert.AlertType.ERROR, "Erro ao Salvar", "Ocorreu um erro: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void handleVoltar() {
+        MainApp.showMainMenuView();
     }
 
     @FXML

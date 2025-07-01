@@ -10,6 +10,7 @@
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10" />
             </padding>
+
             <GridPane hgap="10" vgap="5">
                 <columnConstraints>
                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="120.0" />
@@ -134,6 +135,7 @@
                 <padding>
                     <Insets top="10"/>
                 </padding>
+                <Button text="Voltar ao Menu" onAction="#handleVoltar" />
                 <Button text="Salvar Currículo Completo" onAction="#salvarCurriculoCompleto" style="-fx-font-weight: bold;"/>
                 <Button text="Limpar Tudo" onAction="#limparTudo"/>
             </HBox>

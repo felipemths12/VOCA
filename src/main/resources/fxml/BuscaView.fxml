@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.voca.gui.BuscaController">
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+    </padding>
+    <children>
+        <TitledPane text="Filtros de Busca de Candidatos" collapsible="false">
+            <content>
+                <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 10;">
+                    <Label text="Área de Formação:" />
+                    <TextField fx:id="filtroAreaField" promptText="Ex: Tecnologia" HBox.hgrow="ALWAYS" />
+                    <Label text="Anos de Experiência (Mínimo):" />
+                    <TextField fx:id="filtroAnosExpField" promptText="Ex: 5" prefWidth="150.0" />
+                    <Button fx:id="filtrarButton" text="Filtrar" onAction="#filtrarCandidatos" />
+                    <Button fx:id="exportarPdfButton" text="Exportar para PDF" onAction="#exportarResultadosPDF" disable="true" />
+                </HBox>
+            </content>
+        </TitledPane>
+        <TableView fx:id="resultadosTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="resultadoNomeColumn" prefWidth="250.0" text="Nome do Candidato" />
+                <TableColumn fx:id="resultadoEmailColumn" prefWidth="250.0" text="Email" />
+                <TableColumn fx:id="resultadoTelefoneColumn" prefWidth="150.0" text="Telefone" />
+            </columns>
+            <placeholder>
+                <Label text="Nenhum candidato encontrado. Realize uma busca para ver os resultados." />
+            </placeholder>
+        </TableView>
+        <Button text="Voltar ao Menu" onAction="#handleVoltar" />
+    </children>
+</VBox>

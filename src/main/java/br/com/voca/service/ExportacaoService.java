@@ -117,4 +117,51 @@ public class ExportacaoService {
         long anos = totalMeses / 12;
         return String.format("%d anos", anos);
     }
+
+    /**
+     * Exporta uma LISTA ESPECÍFICA de candidatos para um arquivo PDF.
+     * @param candidatos A lista de candidatos a ser exportada.
+     * @param nomeArquivo O caminho do arquivo PDF a ser gerado.
+     */
+    public void exportarCandidatosParaPDF(List<Candidato> candidatos, String nomeArquivo) {
+        // Este método não busca no banco, ele usa a lista fornecida.
+        try (PdfWriter writer = new PdfWriter(nomeArquivo);
+             PdfDocument pdf = new PdfDocument(writer);
+             Document document = new Document(pdf)) {
+
+            document.add(new Paragraph("Relatório de Candidatos Filtrados")
+                    .setBold()
+                    .setFontSize(18)
+                    .setMarginBottom(20));
+
+            float[] columnWidths = {1, 3, 4, 3, 3, 2};
+            Table table = new Table(UnitValue.createPercentArray(columnWidths));
+            table.useAllAvailableWidth();
+
+            // Adiciona o cabeçalho
+            table.addHeaderCell(new Cell().add(new Paragraph("ID")));
+            table.addHeaderCell(new Cell().add(new Paragraph("Nome")));
+            table.addHeaderCell(new Cell().add(new Paragraph("Email")));
+            table.addHeaderCell(new Cell().add(new Paragraph("Telefone")));
+            table.addHeaderCell(new Cell().add(new Paragraph("Área de Atuação")));
+            table.addHeaderCell(new Cell().add(new Paragraph("Experiência")));
+
+            // Adiciona os dados dos candidatos da lista recebida
+            for (Candidato candidato : candidatos) {
+                table.addCell(String.valueOf(candidato.getId()));
+                table.addCell(candidato.getNome());
+                table.addCell(candidato.getEmail());
+                table.addCell(candidato.getTelefone());
+                table.addCell(getAreaDeAtuacaoPrincipal(candidato));
+                table.addCell(calcularTotalExperiencia(candidato));
+            }
+
+            document.add(table);
+            System.out.println("Exportação para PDF concluída com sucesso! Arquivo gerado: " + nomeArquivo);
+
+        } catch (IOException e) {
+            System.err.println("Erro ao exportar dados para PDF: " + e.getMessage());
+        }
+        // Não é mais necessário fechar o DAO aqui, pois ele não foi usado.
+    }
 }

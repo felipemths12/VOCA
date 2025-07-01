@@ -7,19 +7,52 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class MainApp extends Application {
 
+    private static Stage primaryStage;
+
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/CandidatoView.fxml"));
-        Parent root = loader.load();
+    public void start(Stage stage) throws Exception {
+        primaryStage = stage;
+        primaryStage.setTitle("VOCA - Banco de Currículos");
 
-        primaryStage.setTitle("VOCA - Cadastro de Candidatos");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
-
-        // Garante que a conexão com o banco de dados seja fechada ao fechar a aplicação
+        // Garante que a conexão com o banco seja fechada ao fechar a aplicação
         primaryStage.setOnCloseRequest(event -> GenericDAO.fecharFactory());
+
+        showMainMenuView();
+    }
+
+    public static void showMainMenuView() {
+        try {
+            FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/fxml/MainMenuView.fxml"));
+            Parent root = loader.load();
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void showCadastroView() {
+        try {
+            FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/fxml/CandidatoView.fxml"));
+            Parent root = loader.load();
+            primaryStage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void showBuscaView() {
+        try {
+            FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/fxml/BuscaView.fxml"));
+            Parent root = loader.load();
+            primaryStage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
