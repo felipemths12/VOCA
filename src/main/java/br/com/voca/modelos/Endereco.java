@@ -2,14 +2,12 @@ package br.com.voca.modelos;
 
 import jakarta.persistence.*;
 
-//anotação da JPA para mapear uma classe como tabela
+// Mapeia a classe para a tabela "endereco".
 @Entity
-//anotação da JPA para definir um nome para a tabela
 @Table(name = "endereco")
 public class Endereco {
-    //anotação da JPA para definir um id para cada objeto Endereco
+    // Define o ID e a estratégia de geração.
     @Id
-    //anotação da JPA para definir como o id vai ser gerado, nesse caso, será incremental
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String cep;
@@ -19,7 +17,6 @@ public class Endereco {
     private String uf;
     private String numero;
 
-    // LINHA CORRIGIDA ABAIXO
     @OneToOne(mappedBy = "endereco", cascade = CascadeType.ALL)
     private Curriculo curriculo;
 
@@ -37,6 +34,7 @@ public class Endereco {
 
     }
 
+    // Getters
     public String getCep() {
         return cep;
     }

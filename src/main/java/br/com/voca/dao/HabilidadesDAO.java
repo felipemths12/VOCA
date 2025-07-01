@@ -3,9 +3,7 @@ package br.com.voca.dao;
 import br.com.voca.modelos.Habilidades;
 
 /**
- * DAO para a entidade Habilidades.
- * Herda todos os métodos CRUD (salvar, buscarPorId, buscarTodos, atualizar, remover)
- * da classe GenericDAO.
+ * DAO para a entidade Habilidades. Herda métodos CRUD de GenericDAO.
  */
 public class HabilidadesDAO extends GenericDAO<Habilidades> {
 
@@ -13,7 +11,9 @@ public class HabilidadesDAO extends GenericDAO<Habilidades> {
         super(Habilidades.class);
     }
 
-    // Se precisar de um método específico para Habilidades no futuro,
-    // pode adicioná-lo aqui. Por exemplo:
-    // public List<Habilidades> buscarPorNivel(Nivel nivel) { ... }
+    /**
+     * Busca habilidades pelo ID do candidato.
+     * @param candidatoId O ID do candidato.
+     * @return As Habilidades correspondentes ou null se não encontradas.
+     */
 }

@@ -11,27 +11,24 @@ public class CandidatoDAO extends GenericDAO<Candidato> {
         super(Candidato.class);
     }
     /**
-     * Busca candidatos com base na área de formação e/ou anos de experiência mínimos.
-     * Os filtros são opcionais. Se um filtro for nulo ou vazio, ele é ignorado.
+     * Busca candidatos por área de formação e/ou anos de experiência.
+     * Filtros nulos ou vazios são ignorados.
      *
-     * @param areaFormacao A área de formação a ser buscada. Pode ser nula ou vazia.
-     * @param anosExperienciaMinimos O número mínimo de anos de experiência. Pode ser nulo ou zero.
-     * @return Uma lista de candidatos que atendem aos critérios especificados.
+     * @param areaFormacao Área de formação para busca.
+     * @param anosExperienciaMinimos Anos de experiência mínimos.
+     * @return Lista de candidatos que correspondem aos filtros.
      */
     public List<Candidato> buscarPorFiltros(String areaFormacao, Integer anosExperienciaMinimos) {
-        // Converte os parâmetros de entrada para serem usados na query.
-        // String vazia se torna nula para que o filtro de área seja ignorado.
+        // Converte parâmetros para a consulta.
         String areaParam = (areaFormacao == null || areaFormacao.isBlank()) ? null : areaFormacao;
-
-        // Anos de experiência nulos ou zero fazem com que o filtro seja ignorado.
         Long mesesExperienciaParam = (anosExperienciaMinimos == null || anosExperienciaMinimos <= 0) ? null : (long) anosExperienciaMinimos * 12;
 
         /*
-         * JPQL Dinâmica com Condicionais:
-         * 1. LEFT JOIN é usado para incluir candidatos mesmo que não tenham formação ou experiência.
-         * 2. A cláusula WHERE `(:areaParam IS NULL OR ...)` aplica o filtro de área somente se :areaParam não for nulo.
-         * 3. A cláusula HAVING `(:mesesParam IS NULL OR ...)` aplica o filtro de experiência somente se :mesesParam não for nulo.
-         * 4. GROUP BY é necessário para a função de agregação SUM na cláusula HAVING.
+         * JPQL Dinâmica:
+         * 1. LEFT JOIN inclui candidatos sem formação ou experiência.
+         * 2. WHERE aplica o filtro de área se não for nulo.
+         * 3. HAVING aplica o filtro de experiência se não for nulo.
+         * 4. GROUP BY é usado para a função de agregação SUM.
          */
         String jpql = "SELECT c FROM Candidato c " +
                 "LEFT JOIN c.curriculo cu " +

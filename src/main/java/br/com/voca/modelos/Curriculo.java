@@ -4,14 +4,12 @@ import jakarta.persistence.*;
 import java.util.Set;
 import java.util.HashSet;
 
-//anotação da JPA para mapear uma classe como tabela
+// Mapeia a classe para a tabela "curriculo".
 @Entity
-//anotação da JPA para definir um nome para a tabela
 @Table(name = "curriculo")
 public class Curriculo {
-    //anotação da JPA para definir um id para cada objeto Curriculo
+    // Define o ID e a estratégia de geração.
     @Id
-    //anotação da JPA para definir como o id vai ser gerado, nesse caso, será incremental
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -35,8 +33,7 @@ public class Curriculo {
     @OneToMany(mappedBy = "curriculo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Idioma> idioma = new HashSet<>();
 
-    // --- GETTERS E SETTERS ADICIONADOS ---
-
+    // Getters e Setters
     public Long getId() {
         return id;
     }

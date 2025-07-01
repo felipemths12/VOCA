@@ -3,7 +3,7 @@ package br.com.voca.testes;
 import br.com.voca.dao.CandidatoDAO;
 import br.com.voca.dao.GenericDAO;
 import br.com.voca.modelos.*;
-import br.com.voca.service.ExportacaoService; // Importe o serviço
+import br.com.voca.service.ExportacaoService;
 
 import java.util.HashSet;
 import java.util.List;
@@ -12,17 +12,17 @@ import java.util.Set;
 public class TesteGeralCRUD {
 
     public static void main(String[] args) {
-        // --- ETAPA 1: SETUP ---
+        // SETUP: Garante um banco de dados limpo a cada execução.
         System.out.println("[SETUP] O modo 'create-drop' garante um banco de dados limpo a cada execução.");
 
         CandidatoDAO candidatoDAO = new CandidatoDAO();
 
         System.out.println("\n--- INÍCIO DO TESTE INTEGRADO CRUD ---");
 
-        // --- ETAPA 2: CREATE ---
+        // CREATE: Cria um candidato completo.
         System.out.println("\n[CREATE] Criando um candidato completo com todas as informações...");
 
-        // Dados do candidato
+        // Dados
         Endereco endereco = new Endereco("12345-678", "Rua dos Desenvolvedores", "Centro", "Código Fonte", "JV", "1024");
         FormacaoAcademica formacao1 = new FormacaoAcademica("Ciência da Computação", "Universidade Federal de Java", "Tecnologia", "01/2018", "12/2022", "CONCLUIDO");
         ExperienciaProfissional exp1 = new ExperienciaProfissional("Tech Solutions S.A.", "Desenvolvedor Java Pleno", "01/2022", "06/2024", "Desenvolvimento de APIs REST");
@@ -55,7 +55,7 @@ public class TesteGeralCRUD {
         candidatoDAO.salvar(novoCandidato);
         System.out.println("Candidato salvo com sucesso! ID: " + novoCandidato.getId());
 
-        // --- ETAPA 3: EXPORTAÇÃO ---
+        // EXPORTAÇÃO: Exporta os dados para CSV e PDF.
         System.out.println("\n[EXPORT] Exportando dados para CSV e PDF...");
         ExportacaoService exportacaoService = new ExportacaoService();
         exportacaoService.exportarCandidatosParaCSV("candidatos_exportados.csv");
@@ -63,7 +63,7 @@ public class TesteGeralCRUD {
         System.out.println("[EXPORT] Arquivos devem ter sido gerados na raiz do projeto (pasta VOCA).");
 
 
-        // --- ETAPA 4: DELETE ---
+        // DELETE: Remove o candidato do banco de dados.
         System.out.println("\n[DELETE] Removendo o candidato do banco de dados...");
         candidatoDAO.remover(novoCandidato.getId());
         System.out.println("Candidato com ID " + novoCandidato.getId() + " removido.");

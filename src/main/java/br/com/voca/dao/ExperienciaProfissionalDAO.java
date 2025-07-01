@@ -6,5 +6,9 @@ public class ExperienciaProfissionalDAO extends GenericDAO<ExperienciaProfission
     public ExperienciaProfissionalDAO() {
         super(ExperienciaProfissional.class);
     }
-    // Aqui você pode adicionar métodos específicos para ExperienciaProfissional se precisar no futuro
+    /**
+     * Busca uma experiência profissional pelo ID do candidato.
+     * @param candidatoId O ID do candidato.
+     * @return A Experiência Profissional correspondente ou null.
+     */
 }

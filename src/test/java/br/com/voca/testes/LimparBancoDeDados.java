@@ -4,15 +4,10 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 /**
- * Classe utilitária para limpar e recriar o banco de dados.
- * <p>
- * ATENÇÃO: A execução desta classe é DESTRUTIVA. Ela irá apagar permanentemente
- * todos os dados contidos nas tabelas gerenciadas pelo sistema VOCA.
- * <p>
- * Isso é possível porque a unidade de persistência "voca-mysql" está configurada
- * com a propriedade "hibernate.hbm2ddl.auto" com o valor "create-drop".
- * A simples inicialização da EntityManagerFactory com essa configuração é suficiente
- * para que o Hibernate apague e recrie todo o esquema do banco de dados.
+ * Utilitário para limpar e recriar o banco de dados.
+ * ATENÇÃO: A execução desta classe apagará permanentemente todos os dados.
+ * A propriedade "hibernate.hbm2ddl.auto" com valor "create-drop"
+ * no `persistence.xml` faz com que o Hibernate apague e recrie o esquema do banco.
  */
 public class LimparBancoDeDados {
 
@@ -22,7 +17,7 @@ public class LimparBancoDeDados {
 
         EntityManagerFactory emf = null;
         try {
-            // Apenas criar a factory com a configuração 'create-drop' já executa a limpeza.
+            // A criação da factory executa a limpeza.
             emf = Persistence.createEntityManagerFactory("voca-mysql");
 
             System.out.println("Banco de dados limpo e recriado com sucesso!");
@@ -33,7 +28,7 @@ public class LimparBancoDeDados {
             e.printStackTrace();
         } finally {
             if (emf != null && emf.isOpen()) {
-                emf.close(); // Fecha a factory para liberar os recursos.
+                emf.close(); // Libera os recursos.
             }
             System.out.println("--- PROCESSO DE LIMPEZA FINALIZADO ---");
         }

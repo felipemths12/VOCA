@@ -21,14 +21,15 @@ import java.util.stream.Collectors;
 public class ExportacaoService {
 
     public void exportarCandidatosParaCSV(String nomeArquivo) {
+        // Exporta todos os candidatos para um arquivo CSV.
         CandidatoDAO candidatoDAO = new CandidatoDAO();
         List<Candidato> candidatos = candidatoDAO.buscarTodos();
 
         try (FileWriter writer = new FileWriter(nomeArquivo)) {
-            // Cabeçalho do CSV
+            // Cabeçalho
             writer.append("ID,Nome,Email,Telefone,Area de Atuacao,Anos de Experiencia\n");
 
-            // Itera sobre os candidatos para escrever os dados
+            // Dados
             for (Candidato candidato : candidatos) {
                 String areaDeAtuacao = getAreaDeAtuacaoPrincipal(candidato);
                 String anosDeExperiencia = calcularTotalExperiencia(candidato);
@@ -49,6 +50,7 @@ public class ExportacaoService {
     }
 
     public void exportarCandidatosParaPDF(String nomeArquivo) {
+        // Exporta todos os candidatos para um arquivo PDF.
         CandidatoDAO candidatoDAO = new CandidatoDAO();
         List<Candidato> candidatos = candidatoDAO.buscarTodos();
 
@@ -61,12 +63,12 @@ public class ExportacaoService {
                     .setFontSize(18)
                     .setMarginBottom(20));
 
-            // Tabela com as colunas definidas
+            // Tabela
             float[] columnWidths = {1, 3, 4, 3, 3, 2};
             Table table = new Table(UnitValue.createPercentArray(columnWidths));
             table.useAllAvailableWidth();
 
-            // Adiciona o cabeçalho
+            // Cabeçalho da tabela
             table.addHeaderCell(new Cell().add(new Paragraph("ID")));
             table.addHeaderCell(new Cell().add(new Paragraph("Nome")));
             table.addHeaderCell(new Cell().add(new Paragraph("Email")));
@@ -74,7 +76,7 @@ public class ExportacaoService {
             table.addHeaderCell(new Cell().add(new Paragraph("Área de Atuação")));
             table.addHeaderCell(new Cell().add(new Paragraph("Experiência")));
 
-            // Adiciona os dados dos candidatos
+            // Dados dos candidatos
             for (Candidato candidato : candidatos) {
                 table.addCell(String.valueOf(candidato.getId()));
                 table.addCell(candidato.getNome());
@@ -98,7 +100,7 @@ public class ExportacaoService {
         if (candidato.getCurriculo() == null || candidato.getCurriculo().getFormacaoAcademica() == null || candidato.getCurriculo().getFormacaoAcademica().isEmpty()) {
             return "N/A";
         }
-        // Retorna a primeira área de atuação encontrada
+        // Retorna a primeira área de atuação encontrada.
         return candidato.getCurriculo().getFormacaoAcademica().iterator().next().getAreaAtuacao();
     }
 
@@ -119,12 +121,11 @@ public class ExportacaoService {
     }
 
     /**
-     * Exporta uma LISTA ESPECÍFICA de candidatos para um arquivo PDF.
+     * Exporta uma lista específica de candidatos para um arquivo PDF.
      * @param candidatos A lista de candidatos a ser exportada.
      * @param nomeArquivo O caminho do arquivo PDF a ser gerado.
      */
     public void exportarCandidatosParaPDF(List<Candidato> candidatos, String nomeArquivo) {
-        // Este método não busca no banco, ele usa a lista fornecida.
         try (PdfWriter writer = new PdfWriter(nomeArquivo);
              PdfDocument pdf = new PdfDocument(writer);
              Document document = new Document(pdf)) {
@@ -138,7 +139,7 @@ public class ExportacaoService {
             Table table = new Table(UnitValue.createPercentArray(columnWidths));
             table.useAllAvailableWidth();
 
-            // Adiciona o cabeçalho
+            // Cabeçalho da tabela
             table.addHeaderCell(new Cell().add(new Paragraph("ID")));
             table.addHeaderCell(new Cell().add(new Paragraph("Nome")));
             table.addHeaderCell(new Cell().add(new Paragraph("Email")));
@@ -146,7 +147,7 @@ public class ExportacaoService {
             table.addHeaderCell(new Cell().add(new Paragraph("Área de Atuação")));
             table.addHeaderCell(new Cell().add(new Paragraph("Experiência")));
 
-            // Adiciona os dados dos candidatos da lista recebida
+            // Dados dos candidatos
             for (Candidato candidato : candidatos) {
                 table.addCell(String.valueOf(candidato.getId()));
                 table.addCell(candidato.getNome());
@@ -162,6 +163,5 @@ public class ExportacaoService {
         } catch (IOException e) {
             System.err.println("Erro ao exportar dados para PDF: " + e.getMessage());
         }
-        // Não é mais necessário fechar o DAO aqui, pois ele não foi usado.
     }
 }

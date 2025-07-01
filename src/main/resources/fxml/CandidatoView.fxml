@@ -56,6 +56,8 @@
                                     <TableColumn fx:id="cursoColumn" text="Curso" prefWidth="200"/>
                                     <TableColumn fx:id="instituicaoColumn" text="Instituição" prefWidth="200"/>
                                     <TableColumn fx:id="situacaoColumn" text="Situação" prefWidth="100"/>
+                                    <TableColumn fx:id="formacaoInicioColumn" prefWidth="100.0" text="Início" />
+                                    <TableColumn fx:id="formacaoFimColumn" prefWidth="100.0" text="Fim" />
                                 </columns>
                             </TableView>
                             <GridPane hgap="10" vgap="5">
@@ -79,6 +81,8 @@
                                 <columns>
                                     <TableColumn fx:id="empresaColumn" text="Empresa" prefWidth="200"/>
                                     <TableColumn fx:id="cargoColumn" text="Cargo" prefWidth="200"/>
+                                    <TableColumn fx:id="expInicioColumn" prefWidth="100.0" text="Início" />
+                                    <TableColumn fx:id="expFimColumn" prefWidth="100.0" text="Fim" />
                                 </columns>
                             </TableView>
                             <GridPane hgap="10" vgap="5">

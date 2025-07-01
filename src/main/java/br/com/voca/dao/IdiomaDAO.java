@@ -3,8 +3,7 @@ package br.com.voca.dao;
 import br.com.voca.modelos.Idioma;
 
 /**
- * DAO para a entidade Idioma.
- * Herda as operações CRUD da classe GenericDAO.
+ * DAO para a entidade Idioma. Herda as operações CRUD de GenericDAO.
  */
 public class IdiomaDAO extends GenericDAO<Idioma> {
 
@@ -12,5 +11,9 @@ public class IdiomaDAO extends GenericDAO<Idioma> {
         super(Idioma.class);
     }
 
-    // Métodos específicos para a entidade Idioma podem ser adicionados aqui.
+    /**
+     * Busca um idioma pelo ID do candidato.
+     * @param candidatoId O ID do candidato.
+     * @return O Idioma correspondente ou null se não encontrado.
+     */
 }

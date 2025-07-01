@@ -11,6 +11,7 @@ public class CalculoExperienciaService {
     private final CandidatoDAO candidatoDAO = new CandidatoDAO();
 
     public String calcularTotalExperiencia(Long candidatoId) {
+        // Calcula a experiência total de um candidato em anos.
         try {
             Candidato candidato = candidatoDAO.buscarPorId(candidatoId);
             if (candidato == null || candidato.getCurriculo() == null) {

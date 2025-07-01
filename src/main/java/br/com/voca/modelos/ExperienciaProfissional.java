@@ -2,43 +2,38 @@ package br.com.voca.modelos;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate; //biblioteca utilizada para representar datas
-import java.time.format.DateTimeFormatter; //biblioteca para formatar e analisar datas
-import java.time.format.DateTimeParseException; //classe para tratar erros de conversão
-import java.util.HashSet; //biblioteca para criar array redimensionáveis
-import java.util.Set; //interface para definir uma lista ordenada de elementos
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.HashSet;
+import java.util.Set;
 
-//anotação da JPA para mapear uma classe como tabela
+// Mapeia a classe para a tabela "experiencias_profissionais".
 @Entity
-//anotação da JPA para definir um nome para a tabela
 @Table(name = "experiencias_profissionais")
 public class ExperienciaProfissional {
-    //anotação da JPA para definir um id para cada objeto ExperienciaProfissional
+    // Define o ID e a estratégia de geração.
     @Id
-    //anotação da JPA para definir como o id vai ser gerado, nesse caso, será incremental
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nomeEmpresa; //atributo para armazenar o nome da empresa em que o usuário trabalhou
-    private String cargoOcupado; //atributo para armazenar o cargo que o usuário trabalhou
-    private LocalDate inicio; //atributo para armazenar a data de início do trabalho
-    private LocalDate fim; //atributo para armazenar a data de finalização do trabalho
-    private String palavraChave; //atributo para armazenar uma palavra-chave
+    private String nomeEmpresa; // Nome da empresa.
+    private String cargoOcupado; // Cargo ocupado.
+    private LocalDate inicio; // Data de início.
+    private LocalDate fim; // Data de término.
+    private String palavraChave; // Palavra-chave.
     @ElementCollection
     @CollectionTable(name = "experiencia_palavras_chave", joinColumns = @JoinColumn(name = "experiencia_id"))
     @Column(name = "palavra_chave")
-    private Set<String> palavras; //lista para armazenar um conjunto de palavras-chave
+    private Set<String> palavras; // Lista de palavras-chave.
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "curriculo_id")
     private Curriculo curriculo;
 
-    //construtor vazio para o JavaFx
     public ExperienciaProfissional () {
-        // CORREÇÃO: Inicializando a lista para evitar NullPointerException
         this.palavras = new HashSet<>();
     }
 
-    //construtor completo para instanciar um objeto do tipo Experiencia profissional
     public ExperienciaProfissional (String nomeEmpresa, String cargoOcupado, String inicio,
                                     String fim, String palavraChave) {
         setNomeEmpresa(nomeEmpresa);
@@ -46,63 +41,55 @@ public class ExperienciaProfissional {
         setInicio(inicio);
         setFim(fim);
         setPalavraChave(palavraChave);
-        // CORREÇÃO: Inicializando a lista para evitar NullPointerException
         this.palavras = new HashSet<>();
     }
 
-    //setter do nome da empresa com validação contra string nula ou vazia
     public void setNomeEmpresa(String nomeEmpresa) {
         if (nomeEmpresa != null && !nomeEmpresa.isBlank()) {
             this.nomeEmpresa = nomeEmpresa;
         }
     }
 
-    //setter do cargo ocupado com validação contra string nula ou vazia
     public void setCargoOcupado(String cargoOcupado) {
         if (cargoOcupado != null && !cargoOcupado.isBlank()) {
             this.cargoOcupado = cargoOcupado;
         }
     }
 
-    /*setter da data de início do trabalho que utiliza um formatador para especificar o formato e converte a String em um
-    atributo do tipo LocalDate seguindo o padrão mm/aaaa*/
+    // Converte a String de data de início para LocalDate.
     public void setInicio(String inicio) {
         DateTimeFormatter formatador = DateTimeFormatter.ofPattern("MM/yyyy");
         try {
             this.inicio = LocalDate.parse(inicio,formatador);
         } catch (DateTimeParseException e) {
-            //tratar exceção baseado no front-end
+            // Tratamento de exceção.
         }
     }
 
-    /*setter da data de encerramento do trabalho que utiliza um formatador para especificar o formato e converte a String em um
-    atributo do tipo LocalDate seguindo o padrão mm/aaaa*/
+    // Converte a String de data de fim para LocalDate.
     public void setFim(String fim) {
         DateTimeFormatter formatador = DateTimeFormatter.ofPattern("MM/yyyy");
         try {
             this.fim = LocalDate.parse(fim, formatador);
         } catch (DateTimeParseException e) {
-            //tratar exceção baseada no front-end
+            // Tratamento de exceção.
         }
     }
 
-    //setter da palavra-chave com validação contra string nula ou vazia
     public void setPalavraChave (String palavraChave) {
         if (palavraChave != null && !palavraChave.isBlank()) {
             this.palavraChave = palavraChave;
         }
     }
 
-    /*metodo para adicionar uma palavra-chave à lista, com verificações contra String nula e vazia, impedindo
-    também que tenham palavras duplicadas*/
+    // Adiciona uma palavra-chave à lista.
     public void adicionarPalavras() {
         if (palavraChave != null && !palavraChave.isBlank()) {
             palavras.add(palavraChave);
         }
     }
 
-    //getters para retornar os atributos da classe
-
+    // Getters
     public String getNomeEmpresa() {
         return nomeEmpresa;
     }
@@ -123,7 +110,6 @@ public class ExperienciaProfissional {
         return palavras;
     }
 
-    // Adicione também os getters e setters para os campos que faltam
     public Long getId() {
         return id;
     }
