@@ -164,4 +164,25 @@ public class ExportacaoService {
             System.err.println("Erro ao exportar dados para PDF: " + e.getMessage());
         }
     }
+
+    public void exportarCandidatosParaCSV(List<Candidato> candidatos, String nomeArquivo) {
+        try (FileWriter writer = new FileWriter(nomeArquivo)) {
+            writer.append("ID,Nome,Email,Telefone,Area de Atuacao,Anos de Experiencia\n");
+
+            for (Candidato candidato : candidatos) {
+                String areaDeAtuacao = getAreaDeAtuacaoPrincipal(candidato);
+                String anosDeExperiencia = calcularTotalExperiencia(candidato);
+
+                writer.append(String.valueOf(candidato.getId())).append(",");
+                writer.append(candidato.getNome()).append(",");
+                writer.append(candidato.getEmail()).append(",");
+                writer.append(candidato.getTelefone()).append(",");
+                writer.append(areaDeAtuacao).append(",");
+                writer.append(anosDeExperiencia).append("\n");
+            }
+            System.out.println("Exportação para CSV concluída com sucesso! Arquivo gerado: " + nomeArquivo);
+        } catch (IOException e) {
+            System.err.println("Erro ao exportar dados para CSV: " + e.getMessage());
+        }
+    }
 }

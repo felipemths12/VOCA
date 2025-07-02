@@ -2,8 +2,8 @@ package br.com.voca.gui;
 
 import br.com.voca.dao.CandidatoDAO;
 import br.com.voca.modelos.Candidato;
-import br.com.voca.modelos.ExperienciaProfissional;
 import br.com.voca.modelos.FormacaoAcademica;
+import br.com.voca.service.CalculoExperienciaService;
 import br.com.voca.service.ExportacaoService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -15,15 +15,14 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Set;
 
 public class BuscaController {
 
     @FXML private TextField filtroAreaField;
     @FXML private TextField filtroAnosExpField;
     @FXML private Button exportarPdfButton;
+    @FXML private Button exportarCsvButton;
     @FXML private TableView<Candidato> resultadosTable;
     @FXML private TableColumn<Candidato, String> resultadoNomeColumn;
     @FXML private TableColumn<Candidato, String> resultadoEmailColumn;
@@ -31,27 +30,35 @@ public class BuscaController {
     @FXML private TableColumn<Candidato, String> resultadoAreaColumn;
     @FXML private TableColumn<Candidato, String> resultadoExperienciaColumn;
 
-
     private final CandidatoDAO candidatoDAO = new CandidatoDAO();
+    private final CalculoExperienciaService experienciaService = new CalculoExperienciaService();
     private final ObservableList<Candidato> resultadosData = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
-        // Configura as colunas da tabela.
         resultadoNomeColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
         resultadoEmailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         resultadoTelefoneColumn.setCellValueFactory(new PropertyValueFactory<>("telefone"));
 
-        // Configura a coluna "Área de Atuação".
         resultadoAreaColumn.setCellValueFactory(cellData -> {
             String area = getAreaDeAtuacaoPrincipal(cellData.getValue());
             return new SimpleStringProperty(area);
         });
 
-        // Configura a coluna "Experiência".
         resultadoExperienciaColumn.setCellValueFactory(cellData -> {
-            String experiencia = calcularTotalExperiencia(cellData.getValue());
+            String experiencia = experienciaService.calcularTotalExperiencia(cellData.getValue());
             return new SimpleStringProperty(experiencia);
+        });
+
+        resultadosTable.setRowFactory(tv -> {
+            TableRow<Candidato> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    Candidato rowData = row.getItem();
+                    MainApp.showEdicaoView(rowData.getId());
+                }
+            });
+            return row;
         });
 
         resultadosTable.setItems(resultadosData);
@@ -59,7 +66,6 @@ public class BuscaController {
 
     @FXML
     private void filtrarCandidatos() {
-        // Filtra os candidatos com base nos campos de busca.
         String area = filtroAreaField.getText();
         String anosExpStr = filtroAnosExpField.getText();
         Integer anosExperiencia = null;
@@ -76,25 +82,39 @@ public class BuscaController {
         List<Candidato> candidatosFiltrados = candidatoDAO.buscarPorFiltros(area, anosExperiencia);
         resultadosData.clear();
         resultadosData.addAll(candidatosFiltrados);
-        exportarPdfButton.setDisable(resultadosData.isEmpty());
 
-        if (resultadosData.isEmpty()) {
+        boolean semResultados = resultadosData.isEmpty();
+        exportarPdfButton.setDisable(semResultados);
+        exportarCsvButton.setDisable(semResultados);
+
+        if (semResultados) {
             showAlert(Alert.AlertType.INFORMATION, "Busca Concluída", "Nenhum candidato encontrado.");
         }
     }
 
     @FXML
     private void exportarResultadosPDF() {
-        // Exporta os resultados da busca para um arquivo PDF.
+        exportar(ExportType.PDF);
+    }
+
+    @FXML
+    private void exportarResultadosCSV() {
+        exportar(ExportType.CSV);
+    }
+
+    private void exportar(ExportType type) {
         if (resultadosData.isEmpty()) {
             showAlert(Alert.AlertType.INFORMATION, "Nenhum resultado", "Não há dados na tabela para exportar.");
             return;
         }
 
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Salvar Relatório PDF");
-        fileChooser.setInitialFileName("relatorio_candidatos.pdf");
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Arquivos PDF (*.pdf)", "*.pdf");
+        String initialFileName = "relatorio_candidatos." + type.name().toLowerCase();
+        String extensionFilter = "Arquivos " + type.name() + " (*." + type.name().toLowerCase() + ")";
+
+        fileChooser.setTitle("Salvar Relatório " + type.name());
+        fileChooser.setInitialFileName(initialFileName);
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(extensionFilter, "*." + type.name().toLowerCase());
         fileChooser.getExtensionFilters().add(extFilter);
 
         Stage stage = (Stage) resultadosTable.getScene().getWindow();
@@ -102,37 +122,22 @@ public class BuscaController {
 
         if (file != null) {
             ExportacaoService exportacaoService = new ExportacaoService();
-            exportacaoService.exportarCandidatosParaPDF(resultadosData, file.getAbsolutePath());
-            showAlert(Alert.AlertType.INFORMATION, "Exportação Concluída", "O arquivo PDF foi gerado com sucesso em: " + file.getAbsolutePath());
+            if (type == ExportType.PDF) {
+                exportacaoService.exportarCandidatosParaPDF(resultadosData, file.getAbsolutePath());
+            } else {
+                exportacaoService.exportarCandidatosParaCSV(resultadosData, file.getAbsolutePath());
+            }
+            showAlert(Alert.AlertType.INFORMATION, "Exportação Concluída", "O arquivo " + type.name() + " foi gerado com sucesso.");
         }
     }
 
-    // Métodos auxiliares para cálculo das colunas.
     private String getAreaDeAtuacaoPrincipal(Candidato candidato) {
-        if (candidato == null || candidato.getCurriculo() == null || candidato.getCurriculo().getFormacaoAcademica() == null || candidato.getCurriculo().getFormacaoAcademica().isEmpty()) {
+        if (candidato.getCurriculo() == null || candidato.getCurriculo().getFormacaoAcademica().isEmpty()) {
             return "N/A";
         }
-        // Pega a primeira área de formação encontrada.
         FormacaoAcademica formacao = candidato.getCurriculo().getFormacaoAcademica().iterator().next();
         return formacao.getAreaAtuacao();
     }
-
-    private String calcularTotalExperiencia(Candidato candidato) {
-        if (candidato == null || candidato.getCurriculo() == null || candidato.getCurriculo().getExperienciaProfissional() == null) {
-            return "0 anos";
-        }
-
-        Set<ExperienciaProfissional> experiencias = candidato.getCurriculo().getExperienciaProfissional();
-        long totalMeses = 0;
-        for (ExperienciaProfissional exp : experiencias) {
-            if (exp.getInicio() != null && exp.getFim() != null) {
-                totalMeses += ChronoUnit.MONTHS.between(exp.getInicio(), exp.getFim());
-            }
-        }
-        long anos = totalMeses / 12;
-        return String.format("%d anos", anos);
-    }
-
 
     @FXML
     private void handleVoltar() {
@@ -146,4 +151,6 @@ public class BuscaController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    private enum ExportType { PDF, CSV }
 }

@@ -58,21 +58,37 @@ public class ExperienciaProfissional {
 
     // Converte a String de data de início para LocalDate.
     public void setInicio(String inicio) {
-        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("MM/yyyy");
+        if (inicio == null || inicio.isBlank()) {
+            this.inicio = null;
+            return;
+        }
         try {
-            this.inicio = LocalDate.parse(inicio,formatador);
+            // Adiciona o dia "01" para criar uma data completa e segura para o parse
+            String dataCompleta = "01/" + inicio;
+            DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            this.inicio = LocalDate.parse(dataCompleta, formatador);
         } catch (DateTimeParseException e) {
-            // Tratamento de exceção.
+            System.err.println("Formato de data de início inválido: " + inicio);
+            e.printStackTrace(); // Imprime o erro no console para depuração
+            this.inicio = null; // Garante que o campo fique nulo se a data for inválida
         }
     }
 
     // Converte a String de data de fim para LocalDate.
     public void setFim(String fim) {
-        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("MM/yyyy");
+        if (fim == null || fim.isBlank()) {
+            this.fim = null;
+            return;
+        }
         try {
-            this.fim = LocalDate.parse(fim, formatador);
+            // Adiciona o dia "01" para criar uma data completa e segura para o parse
+            String dataCompleta = "01/" + fim;
+            DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            this.fim = LocalDate.parse(dataCompleta, formatador);
         } catch (DateTimeParseException e) {
-            // Tratamento de exceção.
+            System.err.println("Formato de data de fim inválido: " + fim);
+            e.printStackTrace(); // Imprime o erro no console para depuração
+            this.fim = null; // Garante que o campo fique nulo se a data for inválida
         }
     }
 

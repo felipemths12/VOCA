@@ -70,21 +70,35 @@ public class FormacaoAcademica {
 
     // Converte a String de data de início para LocalDate.
     public void setDataInicio (String dataInicio) {
-        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("MM/yyyy");
+        if (dataInicio == null || dataInicio.isBlank()) {
+            this.dataInicio = null;
+            return;
+        }
         try {
-            this.dataInicio = LocalDate.parse(dataInicio, formatador);
+            String dataCompleta = "01/" + dataInicio;
+            DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            this.dataInicio = LocalDate.parse(dataCompleta, formatador);
         } catch (DateTimeParseException e) {
-            // Tratamento de exceção.
+            System.err.println("Formato de data de início inválido: " + dataInicio);
+            e.printStackTrace();
+            this.dataInicio = null;
         }
     }
 
     // Converte a String de data de conclusão para LocalDate.
     public void setDataConclusao (String dataConclusao) {
-        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("MM/yyyy");
+        if (dataConclusao == null || dataConclusao.isBlank()) {
+            this.dataConclusao = null;
+            return;
+        }
         try {
-            this.dataConclusao = LocalDate.parse(dataConclusao, formatador);
+            String dataCompleta = "01/" + dataConclusao;
+            DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            this.dataConclusao = LocalDate.parse(dataCompleta, formatador);
         } catch (DateTimeParseException e) {
-            // Tratamento de exceção.
+            System.err.println("Formato de data de conclusão inválido: " + dataConclusao);
+            e.printStackTrace();
+            this.dataConclusao = null;
         }
     }
 

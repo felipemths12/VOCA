@@ -4,12 +4,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="10" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.voca.gui.BuscaController">
-    <padding>
-        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-    </padding>
-    <children>
-        <TitledPane text="Filtros de Busca de Candidatos" collapsible="false">
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.voca.gui.BuscaController">
+    <top>
+        <TitledPane text="Filtros de Busca de Candidatos" collapsible="false" BorderPane.alignment="CENTER">
             <content>
                 <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 10;">
                     <Label text="Área de Formação:" />
@@ -18,10 +15,13 @@
                     <TextField fx:id="filtroAnosExpField" promptText="Ex: 5" prefWidth="150.0" />
                     <Button fx:id="filtrarButton" text="Filtrar" onAction="#filtrarCandidatos" />
                     <Button fx:id="exportarPdfButton" text="Exportar para PDF" onAction="#exportarResultadosPDF" disable="true" />
+                    <Button fx:id="exportarCsvButton" text="Exportar para CSV" onAction="#exportarResultadosCSV" disable="true" />
                 </HBox>
             </content>
         </TitledPane>
-        <TableView fx:id="resultadosTable" VBox.vgrow="ALWAYS">
+    </top>
+    <center>
+        <TableView fx:id="resultadosTable" BorderPane.alignment="CENTER">
             <columns>
                 <TableColumn fx:id="resultadoNomeColumn" prefWidth="250.0" text="Nome do Candidato" />
                 <TableColumn fx:id="resultadoEmailColumn" prefWidth="250.0" text="Email" />
@@ -30,9 +30,13 @@
                 <TableColumn fx:id="resultadoExperienciaColumn" prefWidth="120.0" text="Experiência" />
             </columns>
             <placeholder>
-                <Label text="Nenhum candidato encontrado. Realize uma busca para ver os resultados." />
+                <Label text="Nenhum candidato encontrado. Dê um duplo clique na linha para editar." />
             </placeholder>
         </TableView>
-        <Button text="Voltar ao Menu" onAction="#handleVoltar" />
-    </children>
-</VBox>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10;">
+            <Button text="Voltar ao Menu" onAction="#handleVoltar" />
+        </HBox>
+    </bottom>
+</BorderPane>

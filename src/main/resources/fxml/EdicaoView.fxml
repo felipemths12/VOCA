@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.voca.gui.EdicaoController">
+    <center>
+        <ScrollPane fitToWidth="true">
+            <content>
+                <VBox spacing="15" style="-fx-padding: 15;">
+                    <Label text="Edição de Currículo" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-padding: 0 0 10 0;"/>
+
+                    <TitledPane text="Dados Pessoais" collapsible="false">
+                        <GridPane hgap="10" vgap="10" style="-fx-padding: 10;">
+                            <Label text="Nome:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                            <TextField fx:id="nomeField" GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.columnSpan="3" HBox.hgrow="ALWAYS"/>
+                            <Label text="Data de Nascimento:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                            <TextField fx:id="dataNascimentoField" promptText="dd/MM/yyyy" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                            <Label text="Nacionalidade:" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                            <TextField fx:id="nacionalidadeField" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+                            <Label text="Email:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                            <TextField fx:id="emailField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                            <Label text="Telefone:" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+                            <TextField fx:id="telefoneField" promptText="(99) 99999-9999" GridPane.rowIndex="2" GridPane.columnIndex="3"/>
+                        </GridPane>
+                    </TitledPane>
+
+                    <TitledPane text="Endereço" collapsible="false">
+                        <GridPane hgap="10" vgap="10" style="-fx-padding: 10;">
+                            <Label text="CEP:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                            <TextField fx:id="cepField" onAction="#buscarCep" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                            <Button text="Buscar CEP" onAction="#buscarCep" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                            <Label text="Logradouro:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                            <TextField fx:id="logradouroField" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.columnSpan="3"/>
+                            <Label text="Número:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                            <TextField fx:id="numeroField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                            <Label text="Bairro:" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+                            <TextField fx:id="bairroField" GridPane.rowIndex="2" GridPane.columnIndex="3"/>
+                            <Label text="Cidade:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                            <TextField fx:id="localidadeField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                            <Label text="UF:" GridPane.rowIndex="3" GridPane.columnIndex="2"/>
+                            <TextField fx:id="ufField" GridPane.rowIndex="3" GridPane.columnIndex="3"/>
+                        </GridPane>
+                    </TitledPane>
+
+                    <TitledPane text="Formação Acadêmica" collapsible="false">
+                        <VBox spacing="10" style="-fx-padding: 10;">
+                            <TableView fx:id="formacaoTable" prefHeight="150">
+                                <columns>
+                                    <TableColumn fx:id="cursoColumn" text="Curso" prefWidth="200"/>
+                                    <TableColumn fx:id="instituicaoColumn" text="Instituição" prefWidth="200"/>
+                                    <TableColumn fx:id="situacaoColumn" text="Situação" prefWidth="100"/>
+                                    <TableColumn fx:id="formacaoInicioColumn" text="Início" prefWidth="100"/>
+                                    <TableColumn fx:id="formacaoFimColumn" text="Fim" prefWidth="100"/>
+                                </columns>
+                            </TableView>
+                            <HBox spacing="10" alignment="BOTTOM_LEFT">
+                                <TextField fx:id="formacaoCursoField" promptText="Curso"/>
+                                <TextField fx:id="formacaoInstituicaoField" promptText="Instituição"/>
+                                <TextField fx:id="formacaoAreaField" promptText="Área"/>
+                                <TextField fx:id="formacaoInicioField" promptText="Início (MM/yyyy)"/>
+                                <TextField fx:id="formacaoFimField" promptText="Fim (MM/yyyy)"/>
+                                <ComboBox fx:id="formacaoSituacaoCombo" promptText="Situação"/>
+                                <Button text="Adicionar" onAction="#adicionarFormacao"/>
+                                <Button text="Remover" onAction="#removerFormacao"/>
+                            </HBox>
+                        </VBox>
+                    </TitledPane>
+
+                    <TitledPane text="Experiência Profissional" collapsible="false">
+                        <VBox spacing="10" style="-fx-padding: 10;">
+                            <TableView fx:id="experienciaTable" prefHeight="150">
+                                <columns>
+                                    <TableColumn fx:id="empresaColumn" text="Empresa" prefWidth="200"/>
+                                    <TableColumn fx:id="cargoColumn" text="Cargo" prefWidth="200"/>
+                                    <TableColumn fx:id="expInicioColumn" text="Início" prefWidth="100"/>
+                                    <TableColumn fx:id="expFimColumn" text="Fim" prefWidth="100"/>
+                                </columns>
+                            </TableView>
+                            <HBox spacing="10" alignment="BOTTOM_LEFT">
+                                <TextField fx:id="expEmpresaField" promptText="Empresa"/>
+                                <TextField fx:id="expCargoField" promptText="Cargo"/>
+                                <TextField fx:id="expInicioField" promptText="Início (MM/yyyy)"/>
+                                <TextField fx:id="expFimField" promptText="Fim (MM/yyyy)"/>
+                                <TextField fx:id="expPalavraChaveField" promptText="Palavra-chave"/>
+                                <Button text="Adicionar" onAction="#adicionarExperiencia"/>
+                                <Button text="Remover" onAction="#removerExperiencia"/>
+                            </HBox>
+                        </VBox>
+                    </TitledPane>
+
+                    <TitledPane text="Habilidades" collapsible="false">
+                        <VBox spacing="10" style="-fx-padding: 10;">
+                            <TableView fx:id="habilidadesTable" prefHeight="150">
+                                <columns>
+                                    <TableColumn fx:id="habilidadeColumn" text="Habilidade" prefWidth="300"/>
+                                    <TableColumn fx:id="habilidadeNivelColumn" text="Nível" prefWidth="150"/>
+                                </columns>
+                            </TableView>
+                            <HBox spacing="10" alignment="BOTTOM_LEFT">
+                                <TextField fx:id="habilidadeField" promptText="Habilidade"/>
+                                <ComboBox fx:id="habilidadeNivelCombo" promptText="Nível"/>
+                                <Button text="Adicionar" onAction="#adicionarHabilidade"/>
+                                <Button text="Remover" onAction="#removerHabilidade"/>
+                            </HBox>
+                        </VBox>
+                    </TitledPane>
+
+                    <TitledPane text="Idiomas" collapsible="false">
+                        <VBox spacing="10" style="-fx-padding: 10;">
+                            <TableView fx:id="idiomasTable" prefHeight="150">
+                                <columns>
+                                    <TableColumn fx:id="idiomaColumn" text="Idioma" prefWidth="300"/>
+                                    <TableColumn fx:id="idiomaNivelColumn" text="Nível" prefWidth="150"/>
+                                </columns>
+                            </TableView>
+                            <HBox spacing="10" alignment="BOTTOM_LEFT">
+                                <TextField fx:id="idiomaField" promptText="Idioma"/>
+                                <ComboBox fx:id="idiomaNivelCombo" promptText="Nível"/>
+                                <Button text="Adicionar" onAction="#adicionarIdioma"/>
+                                <Button text="Remover" onAction="#removerIdioma"/>
+                            </HBox>
+                        </VBox>
+                    </TitledPane>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+    <bottom>
+        <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding: 10;">
+            <Button text="Voltar para Busca" onAction="#handleVoltar" prefHeight="30"/>
+            <Button text="Apagar Currículo" onAction="#handleApagarCurriculo" style="-fx-background-color: #e57373; -fx-text-fill: white;" prefHeight="30"/>
+            <Button text="Salvar Alterações" onAction="#handleSalvarAlteracoes" style="-fx-background-color: #81c784; -fx-text-fill: white;" prefHeight="30"/>
+        </HBox>
+    </bottom>
+</BorderPane>
